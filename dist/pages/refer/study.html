@@ -176,28 +176,6 @@
         border-radius: 5px;
         margin-bottom: 1rem;
       }
-      @media (max-width: 768px) {
-        body {
-          padding: 1rem 0;
-        }
-        .main-container[data-astro-cid-qzmztifr] {
-          margin: 0 1rem;
-          border-radius: 15px;
-        }
-        .form-header[data-astro-cid-qzmztifr] {
-          padding: 1.5rem 1rem;
-        }
-        .form-section[data-astro-cid-qzmztifr] {
-          padding: 1rem;
-        }
-        .btn-group-custom[data-astro-cid-qzmztifr] {
-          flex-direction: column;
-          align-items: center;
-        }
-        .file-upload-container[data-astro-cid-qzmztifr] {
-          padding: 1.5rem 1rem;
-        }
-      }
       .fade-in[data-astro-cid-qzmztifr] {
         animation: fadeIn 0.6s ease-in;
       }
@@ -739,11 +717,11 @@
                               <i class="bi bi-info-circle" data-astro-cid-qzmztifr></i>
                             </span>
                           </div>
-                          <span
-                            class="error-message"
+                          <div
+                            class="invalid-feedback"
                             id="titleError"
                             data-astro-cid-qzmztifr
-                          ></span>
+                          ></div>
                         </div>
                         <!-- Subject -->
                         <div class="col-md-6" data-astro-cid-qzmztifr>
@@ -791,11 +769,11 @@
                               <i class="bi bi-info-circle" data-astro-cid-qzmztifr></i>
                             </span>
                           </div>
-                          <span
-                            class="error-message"
+                          <div
+                            class="invalid-feedback"
                             id="subjectError"
                             data-astro-cid-qzmztifr
-                          ></span>
+                          ></div>
                         </div>
                         <!-- Semester -->
                         <div class="col-md-6" data-astro-cid-qzmztifr>
@@ -833,11 +811,11 @@
                               <i class="bi bi-info-circle" data-astro-cid-qzmztifr></i>
                             </span>
                           </div>
-                          <span
-                            class="error-message"
+                          <div
+                            class="invalid-feedback"
                             id="semesterError"
                             data-astro-cid-qzmztifr
-                          ></span>
+                          ></div>
                         </div>
                         <!-- File Description -->
                         <div class="col-md-12" data-astro-cid-qzmztifr>
@@ -864,11 +842,11 @@
                               <i class="bi bi-info-circle" data-astro-cid-qzmztifr></i>
                             </span>
                           </div>
-                          <span
-                            class="error-message"
+                          <div
+                            class="invalid-feedback"
                             id="fileDescriptionError"
                             data-astro-cid-qzmztifr
-                          ></span>
+                          ></div>
                         </div>
                         <!-- File Upload Section -->
                         <div class="col-md-12" data-astro-cid-qzmztifr>
@@ -951,7 +929,11 @@
                               <i class="bi bi-info-circle" data-astro-cid-qzmztifr></i>
                             </span>
                           </div>
-                          <span class="error-message" id="fileError" data-astro-cid-qzmztifr></span>
+                          <div
+                            class="invalid-feedback"
+                            id="fileError"
+                            data-astro-cid-qzmztifr
+                          ></div>
                         </div>
                         <div class="row mt-4" data-astro-cid-qzmztifr>
                           <div class="col-md-3 text-center" data-astro-cid-qzmztifr>
@@ -1196,9 +1178,8 @@
     </script>
     <script
       type="module"
-      src="/_astro/study.astro_astro_type_script_index_0_lang.CTd4t7kS.js"
+      src="/_astro/study.astro_astro_type_script_index_0_lang.CfNagJQe.js"
     ></script>
-    <!--end::Script-->
   </body>
   <!--end::Body-->
 </html>
