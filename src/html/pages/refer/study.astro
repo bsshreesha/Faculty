@@ -33,7 +33,7 @@ const page = "study";
         font-weight: bold;
     }
 
-    .file-upload-container {
+   .file-upload-container {
             border: 2px dashed;
             border-radius: 15px;
             padding: 2rem;
@@ -172,6 +172,34 @@ const page = "study";
             margin-bottom: 1rem;
         }
 
+         @media (max-width: 768px) {
+            body {
+                padding: 1rem 0;
+            }
+
+            .main-container {
+                margin: 0 1rem;
+                border-radius: 15px;
+            }
+
+            .form-header {
+                padding: 1.5rem 1rem;
+            }
+
+            .form-section {
+                padding: 1rem;
+            }
+
+            .btn-group-custom {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .file-upload-container {
+                padding: 1.5rem 1rem;
+            }
+        }
+
         /* Smooth animations */
         .fade-in {
             animation: fadeIn 0.6s ease-in;
@@ -244,159 +272,159 @@ const page = "study";
                   </div>
                   <div class="card-body">
                     <form id="studyMat" enctype="multipart/form-data">
-                    <div class="row g-3">
+        <div class="row g-3">
 
-                        <!-- Title -->
-                        <div class="col-md-12">
-                            <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="title" name="title" placeholder="Enter the Title of the file" autocomplete="off">
-                                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" 
-                                    title="Provide a clear and concise title (e.g., 'Unit 2 Notes'). Avoid special characters.">
-                                    <i class="bi bi-info-circle"></i>
-                                </span>
-                            </div>
-                            <div class="invalid-feedback" id="titleError"></div>
-                        </div>
-
-                        <!-- Subject -->
-                        <div class="col-md-6">
-                            <label for="subject" class="form-label">Subject <span class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <select class="form-select" id="subject" name="subject">
-                                    <option value="" disabled selected>Select Subject</option>
-                                    <option value="21MAT11">21MAT11 - Calculus and Differential Equation</option>
-                                    <option value="21MAT21">21MAT21 - Advanced Calculus and Numerical Methods</option>
-                                    <option value="21MAT31">21MAT31 - Transform Calculus, Fourier Series and Numerical Methods</option>
-                                    <option value="21MATCS41">21MATCS41 - Mathematical Foundations of Computing</option>
-                                    <option value="21MAT656">21MAT656 - Mathematics for Machine Learning</option>
-                                    <option value="21CV752">21CV752 - Numerical Methods and Applications</option>
-                                    <!-- Add more options as needed -->
-                                </select>
-                                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    title="Select the subject code from the curriculum.">
-                                    <i class="bi bi-info-circle"></i>
-                                </span>
-                            </div>
-                            <div class="invalid-feedback" id="subjectError"></div>
-                        </div>
-
-                        <!-- Semester -->
-                        <div class="col-md-6">
-                            <label for="semester" class="form-label">Semester <span class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <select class="form-select" id="semester" name="semester">
-                                    <option value="" selected disabled>Select Semester</option>
-                                    <option value="1">1st Semester</option>
-                                    <option value="2">2nd Semester</option>
-                                    <option value="3">3rd Semester</option>
-                                    <option value="4">4th Semester</option>
-                                    <option value="5">5th Semester</option>
-                                    <option value="6">6th Semester</option>
-                                    <option value="7">7th Semester</option>
-                                    <option value="8">8th Semester</option>
-                                    <!-- Add more if needed -->
-                                </select>
-                                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    title="Select the semester to which this file applies.">
-                                    <i class="bi bi-info-circle"></i>
-                                </span>
-                            </div>
-                            <div class="invalid-feedback" id="semesterError"></div>
-                        </div>
-
-                        <!-- File Description -->
-                        <div class="col-md-12">
-                            <label for="fileDescription" class="form-label">File Description <span class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <textarea class="form-control" id="fileDescription" name="fileDescription" placeholder="Enter file description" rows="1"></textarea>
-                                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    title="Briefly describe the contents of the file (e.g., 'Solutions for Assignment 1').">
-                                    <i class="bi bi-info-circle"></i>
-                                </span>
-                            </div>
-                            <div class="invalid-feedback" id="fileDescriptionError"></div>
-                        </div>
-
-                        <!-- File Upload Section -->
-                        <div class="col-md-12">                    
-                                <label for="file" class="form-label">
-                                    Upload Files <span style="font-size: 0.85rem; color: #6b7280;">(Maximum 5 files)</span> <span class="text-danger">*</span>
-                                </label>
-                                
-                                <div class="input-group">
-                                    <div class="file-upload-container form-control p-0" id="fileUploadContainer">
-                                        <i class="bi bi-cloud-upload upload-icon"></i>
-                                        <div class="file-upload-text" id="fileUploadText">
-                                            <strong>Click to browse files</strong><br>
-                                            or drag and drop your files here<br>
-                                            <small>PDF, Word (.docx), PowerPoint (.pptx) • Max 100MB each</small>
-                                        </div>
-                                        <label class="file-upload-button mb-0" style="cursor: pointer;">
-                                            <i class="bi bi-folder2-open me-2"></i>Browse Files
-                                            <input type="file" multiple hidden id="file" name="file" accept=".pdf,.docx,.pptx">
-                                        </label>
-                                        
-                                        <!-- Upload Progress -->
-                                        <div class="upload-progress" id="uploadProgress" style="display: none;">
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" 
-                                                    role="progressbar" style="width: 0%" id="progressBar">
-                                                    <span id="progressText">0%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="file-list" id="fileList" style="display: none;"></div>
-                                    </div>
-                                    <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        title="Upload up to 5 files. File format such as PDF, Word(.docx) and Presentation (.pptx) is allowed. Each file should be under 100MB.">
-                                        <i class="bi bi-info-circle"></i>
-                                    </span>
-                                </div>
-                                <div class="invalid-feedback" id="fileError"></div>
-                            </div>
-
-                        <div class="row mt-4">
-                        <div class="col-md-3 text-center">
-                            <button type="reset" name="reset" class="btn btn-warning w-100">RESET</button>
-                        </div>
-                        <div class="col-md-6" style="margin-bottom: 5px;"></div>
-                        <div class="col-md-3 text-center">
-                            <button type="submit" class="btn btn-success w-100">SUBMIT</button>
-                        </div>
-                    </div>
-
-                    </div>
-                </form>
+            <!-- Title -->
+            <div class="col-md-12">
+                <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter the Title of the file" autocomplete="off">
+                    <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" 
+                          title="Provide a clear and concise title (e.g., 'Unit 2 Notes'). Avoid special characters.">
+                        <i class="bi bi-info-circle"></i>
+                    </span>
+                </div>
+                <span class="error-message" id="titleError"></span>
             </div>
 
-            <!-- File Confirmation Modal -->
-            <div class="modal fade" id="filePreviewModal" tabindex="-1" aria-labelledby="filePreviewModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary">
-                            <h5 class="modal-title" id="filePreviewModalLabel">
-                                <i class="bi bi-file-earmark-check me-2"></i>File Confirmation & Preview
-                            </h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body file-preview-content" id="filePreviewContent">
-                            <!-- File confirmation content will be inserted here -->
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-danger" id="removeFileBtn">
-                                <i class="bi bi-trash me-1"></i>Remove File
-                            </button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                <i class="bi bi-x-circle me-1"></i>Close
-                            </button>
-                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">
-                                <i class="bi bi-check-circle me-1"></i>Confirm & Keep
-                            </button>
-                        </div>
-                    </div>
+            <!-- Subject -->
+            <div class="col-md-6">
+                <label for="subject" class="form-label">Subject <span class="text-danger">*</span></label>
+                <div class="input-group">
+                    <select class="form-select" id="subject" name="subject">
+                        <option value="" disabled selected>Select Subject</option>
+                         <option value="21MAT11">21MAT11 - Calculus and Differential Equation</option>
+                         <option value="21MAT21">21MAT21 - Advanced Calculus and Numerical Methods</option>
+                         <option value="21MAT31">21MAT31 - Transform Calculus, Fourier Series and Numerical Methods</option>
+                         <option value="21MATCS41">21MATCS41 - Mathematical Foundations of Computing</option>
+                         <option value="21MAT656">21MAT656 - Mathematics for Machine Learning</option>
+                         <option value="21CV752">21CV752 - Numerical Methods and Applications</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                    <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top"
+                          title="Select the subject code from the curriculum.">
+                        <i class="bi bi-info-circle"></i>
+                    </span>
                 </div>
+                <span class="error-message" id="subjectError"></span>
+            </div>
+
+            <!-- Semester -->
+            <div class="col-md-6">
+                <label for="semester" class="form-label">Semester <span class="text-danger">*</span></label>
+                <div class="input-group">
+                    <select class="form-select" id="semester" name="semester">
+                        <option value="" selected disabled>Select Semester</option>
+                        <option value="1">1st Semester</option>
+                        <option value="2">2nd Semester</option>
+                        <option value="3">3rd Semester</option>
+                        <option value="4">4th Semester</option>
+                        <option value="5">5th Semester</option>
+                        <option value="6">6th Semester</option>
+                        <option value="7">7th Semester</option>
+                        <option value="8">8th Semester</option>
+                        <!-- Add more if needed -->
+                    </select>
+                    <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top"
+                          title="Select the semester to which this file applies.">
+                        <i class="bi bi-info-circle"></i>
+                    </span>
+                </div>
+                <span class="error-message" id="semesterError"></span>
+            </div>
+
+            <!-- File Description -->
+            <div class="col-md-12">
+                <label for="fileDescription" class="form-label">File Description <span class="text-danger">*</span></label>
+                <div class="input-group">
+                    <textarea class="form-control" id="fileDescription" name="fileDescription" placeholder="Enter file description" rows="1"></textarea>
+                    <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top"
+                          title="Briefly describe the contents of the file (e.g., 'Solutions for Assignment 1').">
+                        <i class="bi bi-info-circle"></i>
+                    </span>
+                </div>
+                <span class="error-message" id="fileDescriptionError"></span>
+            </div>
+
+             <!-- File Upload Section -->
+            <div class="col-md-12">                    
+                    <label for="file" class="form-label">
+                        Upload Files <span style="font-size: 0.85rem; color: #6b7280;">(Maximum 5 files)</span> <span class="text-danger">*</span>
+                    </label>
+                    
+                    <div class="input-group">
+                        <div class="file-upload-container form-control p-0" id="fileUploadContainer">
+                            <i class="bi bi-cloud-upload upload-icon"></i>
+                            <div class="file-upload-text" id="fileUploadText">
+                                <strong>Click to browse files</strong><br>
+                                or drag and drop your files here<br>
+                                <small>PDF, Word (.docx), PowerPoint (.pptx) • Max 100MB each</small>
+                            </div>
+                            <label class="file-upload-button mb-0" style="cursor: pointer;">
+                                <i class="bi bi-folder2-open me-2"></i>Browse Files
+                                <input type="file" multiple hidden id="file" name="file" accept=".pdf,.docx,.pptx">
+                            </label>
+                            
+                            <!-- Upload Progress -->
+                            <div class="upload-progress" id="uploadProgress" style="display: none;">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" 
+                                         role="progressbar" style="width: 0%" id="progressBar">
+                                        <span id="progressText">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="file-list" id="fileList" style="display: none;"></div>
+                        </div>
+                        <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="Upload up to 5 files. File format such as PDF, Word(.docx) and Presentation (.pptx) is allowed. Each file should be under 100MB.">
+                            <i class="bi bi-info-circle"></i>
+                        </span>
+                    </div>
+                    <span class="error-message" id="fileError"></span>
+                </div>
+
+            <div class="row mt-4">
+            <div class="col-md-3 text-center">
+                <button type="reset" name="reset" class="btn btn-warning w-100">RESET</button>
+            </div>
+            <div class="col-md-6" style="margin-bottom: 5px;"></div>
+            <div class="col-md-3 text-center">
+                <button type="submit" class="btn btn-success w-100">SUBMIT</button>
+            </div>
+        </div>
+
+        </div>
+    </form>
+</div>
+
+<!-- File Confirmation Modal -->
+<div class="modal fade" id="filePreviewModal" tabindex="-1" aria-labelledby="filePreviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="filePreviewModalLabel">
+                    <i class="bi bi-file-earmark-check me-2"></i>File Confirmation & Preview
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body file-preview-content" id="filePreviewContent">
+                <!-- File confirmation content will be inserted here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="removeFileBtn">
+                    <i class="bi bi-trash me-1"></i>Remove File
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-1"></i>Close
+                </button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+                    <i class="bi bi-check-circle me-1"></i>Confirm & Keep
+                </button>
+            </div>
+        </div>
+    </div>
                   </div>
                   <!-- /.card-body -->
                 </div>
@@ -416,7 +444,7 @@ const page = "study";
     <!--begin::Script-->
     <Scripts path={path} />
     <script>
-   document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("studyMat");
     const fileInput = document.querySelector("#file");
     const fileUploadContainer = document.getElementById("fileUploadContainer");
@@ -806,7 +834,7 @@ const page = "study";
         form.reset();
 
         // Remove validation classes
-        document.querySelectorAll(".is-invalid, .valid").forEach((field) => {
+        document.querySelectorAll(".is-invalid, .is-valid").forEach((field) => {
             field.classList.remove("is-invalid", "valid");
         });
 
@@ -1125,13 +1153,13 @@ const page = "study";
 
             if (!input.value.trim()) {
                 input.classList.add("is-invalid");
-                input.classList.remove("valid");
+                input.classList.remove("is-valid");
                 error.textContent = field.message;
                 error.style.display = "block";
                 isValid = false;
             } else {
                 input.classList.remove("is-invalid");
-                input.classList.add("valid");
+                input.classList.add("is-valid");
                 error.style.display = "none";
             }
         });
@@ -1233,18 +1261,18 @@ const page = "study";
 
         field.addEventListener("focus", () => {
             field.classList.remove("is-invalid");
-            field.classList.add("valid");
+            field.classList.add("is-valid");
             if (error) error.style.display = "none";
         });
 
         field.addEventListener("blur", () => {
             if (!field.value.trim()) {
                 field.classList.add("is-invalid");
-                field.classList.remove("valid");
+                field.classList.remove("is-valid");
                 if (error) error.style.display = "block";
             } else {
                 field.classList.remove("is-invalid");
-                field.classList.add("valid");
+                field.classList.add("is-valid");
                 if (error) error.style.display = "none";
             }
         });
@@ -1260,6 +1288,7 @@ const page = "study";
         new bootstrap.Tooltip(el);
     });
 });
-</script>
+    </script>
+    <!--end::Script-->
   </body><!--end::Body-->
 </html>
