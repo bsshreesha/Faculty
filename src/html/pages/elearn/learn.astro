@@ -1,0 +1,280 @@
+---
+import Head from "@components/_head.astro";
+import Footer from "@components/dashboard/_footer.astro";
+import Topbar from "@components/dashboard/_topbar.astro";
+import Sidenav from "@components/dashboard/_sidenav.astro";
+import Scripts from "@components/_scripts.astro";
+import ColorMode from "@components/docs/color-mode.mdx";
+
+const title = "Upload e-learning Data";
+const path = "../../../dist";
+const mainPage = "elearn";
+const page = "learn";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <!--begin::Head-->
+  <head>
+    <Head title={title} path={path} />
+     <style>
+        .error-border {
+            border: 2px solid red !important;
+        }
+
+        .error-message {
+            font-size: 14px;
+            color: red;
+            margin-top: 5px;
+            display: block;
+        }
+        
+        label{
+            font-weight: bold;
+        }
+    </style>
+  </head>
+  <!--end::Head-->
+  <!--begin::Body-->
+  <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary">
+    <!--begin::App Wrapper-->
+    <div class="app-wrapper">
+      <Topbar path={path} />
+      <Sidenav path={path} mainPage={mainPage} page={page} />
+      <!--begin::App Main-->
+      <main class="app-main">
+        <!--begin::App Content Header-->
+        <div class="app-content-header">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+              <div class="col-sm-6">
+                <h3 class="mb-0">e-learning</h3>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                  <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    e-learning
+                  </li>
+                </ol>
+              </div>
+            </div>
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
+        </div>
+        <!--end::App Content Header-->
+        <!--begin::App Content-->
+        <div class="app-content">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+              <div class="col-12">
+                <!-- Default box -->
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Form to Upload e-learning Videos and Links</h3>
+
+                    <div class="card-tools">
+                      <button
+                        type="button"
+                        class="btn btn-tool"
+                        data-lte-toggle="card-collapse"
+                        title="Collapse"
+                      >
+                        <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-tool"
+                        data-lte-toggle="card-remove"
+                        title="Remove"
+                      >
+                        <i class="bi bi-x-lg"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                  <form action="/elearn" method="post" enctype="multipart/form-data" id="elearnForm">
+            <div class="row g-3">
+                <!-- New Subject Name Select Field -->
+                <div class="col-md-6">
+                    <label for="subjectName" class="form-label">Subject Name <span class="text-danger">*</span></label>
+                    <select class="form-select" id="subjectName">
+                        <option value="">Select Subject</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Biology">Biology</option>
+                        <!-- Add more subjects as needed -->
+                    </select>
+                    <span class="error-message" id="subjectNameError"></span>
+                </div>
+            
+                <!-- New Semester Select Field -->
+                <div class="col-md-6">
+                    <label for="semester" class="form-label">Semester <span class="text-danger">*</span></label>
+                    <select class="form-select" id="semester">
+                         <option value="" selected disabled>Select Semester</option>
+                        <option value="1">1st Semester</option>
+                        <option value="2">2nd Semester</option>
+                        <option value="3">3rd Semester</option>
+                        <option value="4">4th Semester</option>
+                        <option value="5">5th Semester</option>
+                        <option value="6">6th Semester</option>
+                        <option value="7">7th Semester</option>
+                        <option value="8">8th Semester</option>
+                    </select>
+                    <span class="error-message" id="semesterError"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="videoFile" class="form-label">Upload Video File <span class="text-danger">*</span></label>
+                    <input type="file" class="form-control" id="videoFile" accept="video/*">
+                    <span class="error-message" id="videoFileError"></span>
+                </div>
+                <div class="col-md-6">
+                    <label for="youtubeLink" class="form-label">YouTube Links <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="youtubeLink" rows="1"></textarea>
+                    <span class="error-message" id="youtubeLinkError"></span>
+                </div>
+                <div class="col-md-12   ">
+                    <label for="announcement" class="form-label">Announcement <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="announcement" rows="3"></textarea>
+                    <span class="error-message" id="announcementError"></span>
+                </div>
+
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-3 text-center">
+                    <button type="reset" name="reset" class="btn btn-warning w-100">RESET</button>
+                </div>
+                <div class="col-md-6" style="margin-bottom: 5px;"></div>
+                <div class="col-md-3 text-center">
+                    <button type="submit" name="submit" class="btn btn-success w-100">SUBMIT</button>
+                </div>
+            </div>
+          </form>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
+        </div>
+        <!--end::App Content-->
+      </main>
+      <!--end::App Main-->
+      <Footer />
+    </div>
+    <!--end::App Wrapper-->
+    <!--begin::Script-->
+    <Scripts path={path} />
+    <script>
+            // Attach submit event to the form
+            const form = document.getElementById('elearnForm');
+        
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent form submission for validation
+        
+                const fields = [
+                    { id: "subjectName", errorId: "subjectNameError", message: "Please select a subject." },
+                    { id: "semester", errorId: "semesterError", message: "Please select a semester." },
+                    { id: "videoFile", errorId: "videoFileError", message: "Please upload a video file." },
+                    { id: "youtubeLink", errorId: "youtubeLinkError", message: "Please enter a YouTube link." },
+                    { id: "announcement", errorId: "announcementError", message: "Please enter an announcement." }
+                ];
+        
+                let isValid = true;
+        
+                fields.forEach((field) => {
+                    const input = document.getElementById(field.id);
+                    const error = document.getElementById(field.errorId);
+        
+                    if (!input.value.trim() || (input.tagName === "SELECT" && input.value === "")) {
+                        input.classList.add("is-invalid");
+                        input.classList.remove("is-valid");
+                        error.textContent = field.message;
+                        error.style.display = "block";
+                        isValid = false;
+                    } else {
+                        input.classList.remove("is-invalid");
+                        input.classList.add("is-valid");
+                        error.style.display = "none";
+                    }
+                });
+        
+                // Special validation for video file input
+                const videoFileInput = document.getElementById("videoFile");
+                const videoFileError = document.getElementById("videoFileError");
+                if (videoFileInput.files.length === 0) {
+                    videoFileInput.classList.add("is-invalid");
+                    videoFileInput.classList.remove("is-valid");
+                    videoFileError.textContent = "Please upload a video file.";
+                    videoFileError.style.display = "block";
+                    isValid = false;
+                } else {
+                    videoFileInput.classList.remove("is-invalid");
+                    videoFileInput.classList.add("is-valid");
+                    videoFileError.style.display = "none";
+                }
+        
+                // If the form is valid, allow submission
+                if (isValid) {
+                    form.submit(); // Submits the form to the action specified
+                }
+            });
+        
+            // Clear error messages on input focus
+            document.querySelectorAll("input, select, textarea").forEach((field) => {
+                field.addEventListener("focus", (event) => {
+                    const input = event.target;
+                    const error = document.getElementById(`${input.id}Error`);
+                    if (error) {
+                        error.style.display = "none";
+                        input.classList.remove("is-invalid");
+                    }
+                });
+        
+                field.addEventListener("blur", (event) => {
+                    const input = event.target;
+                    const error = document.getElementById(`${input.id}Error`);
+                    if (!input.value.trim() || (input.tagName === "SELECT" && input.value === "")) {
+                        input.classList.add("is-invalid");
+                        input.classList.remove("is-valid");
+                        if (error) error.style.display = "block";
+                    } else {
+                        input.classList.remove("is-invalid");
+                        input.classList.add("is-valid");
+                        if (error) error.style.display = "none";
+                    }
+                });
+            });
+        
+            // Special handling for video file input
+            const videoFileInput = document.getElementById("videoFile");
+            const videoFileError = document.getElementById("videoFileError");
+        
+            videoFileInput.addEventListener("change", () => {
+                if (videoFileInput.files.length === 0) {
+                    videoFileInput.classList.add("is-invalid");
+                    videoFileInput.classList.remove("is-valid");
+                    videoFileError.style.display = "block";
+                } else {
+                    videoFileInput.classList.remove("is-invalid");
+                    videoFileInput.classList.add("is-valid");
+                    videoFileError.style.display = "none";
+                }
+            });
+        </script>
+    <!--end::Script-->
+  </body><!--end::Body-->
+</html>

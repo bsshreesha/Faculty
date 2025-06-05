@@ -1,0 +1,282 @@
+---
+import Head from "@components/_head.astro";
+import Footer from "@components/dashboard/_footer.astro";
+import Topbar from "@components/dashboard/_topbar.astro";
+import Sidenav from "@components/dashboard/_sidenav.astro";
+import Scripts from "@components/_scripts.astro";
+import ColorMode from "@components/docs/color-mode.mdx";
+
+const title = "Create Assignments";
+const path = "../../../dist";
+const mainPage = "assign";
+const page = "create";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <!--begin::Head-->
+  <head>
+    <Head title={title} path={path} />
+     <style>
+        .error-border {
+            border: 2px solid red !important;
+        }
+
+        .error-message {
+            font-size: 14px;
+            color: red;
+            margin-top: 5px;
+            display: block;
+        }
+        
+        label{
+            font-weight: bold;
+        }
+    </style>
+  </head>
+  <!--end::Head-->
+  <!--begin::Body-->
+  <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary">
+    <!--begin::App Wrapper-->
+    <div class="app-wrapper">
+      <Topbar path={path} />
+      <Sidenav path={path} mainPage={mainPage} page={page} />
+      <!--begin::App Main-->
+      <main class="app-main">
+        <!--begin::App Content Header-->
+        <div class="app-content-header">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+              <div class="col-sm-6">
+                <h3 class="mb-0">Create Assignments</h3>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                  <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Create Assignments
+                  </li>
+                </ol>
+              </div>
+            </div>
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
+        </div>
+        <!--end::App Content Header-->
+        <!--begin::App Content-->
+        <div class="app-content">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+              <div class="col-12">
+                <!-- Default box -->
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Form to Create Assignments</h3>
+
+                    <div class="card-tools">
+                      <button
+                        type="button"
+                        class="btn btn-tool"
+                        data-lte-toggle="card-collapse"
+                        title="Collapse"
+                      >
+                        <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-tool"
+                        data-lte-toggle="card-remove"
+                        title="Remove"
+                      >
+                        <i class="bi bi-x-lg"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                  <form action="/upload_assign" method="post" enctype="multipart/form-data" id="uploadForm">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="subjectName" class="form-label">Subject <span class="text-danger">*</span></label>
+                    <select class="form-select" id="subjectName" name="subjectName">
+                        <option value="">Select Subject</option>
+                         <option value="" disabled selected>Select Subject</option>
+                         <option value="21MAT11">21MAT11 - Calculus and Differential Equation</option>
+                         <option value="21MAT21">21MAT21 - Advanced Calculus and Numerical Methods</option>
+                         <option value="21MAT31">21MAT31 - Transform Calculus, Fourier Series and Numerical Methods</option>
+                         <option value="21MATCS41">21MATCS41 - Mathematical Foundations of Computing</option>
+                         <option value="21MAT656">21MAT656 - Mathematics for Machine Learning</option>
+                         <option value="21CV752">21CV752 - Numerical Methods and Applications</option>
+                        <!-- Add more subjects as needed -->
+                    </select>
+                    <span class="error-message" id="subjectNameError"></span>
+                </div>
+            
+                <div class="col-md-6">
+                    <label for="semester" class="form-label">Semester <span class="text-danger">*</span></label>
+                    <select class="form-select" id="semester" name="semester">
+                         <option value="" selected disabled>Select Semester</option>
+                        <option value="1">1st Semester</option>
+                        <option value="2">2nd Semester</option>
+                        <option value="3">3rd Semester</option>
+                        <option value="4">4th Semester</option>
+                        <option value="5">5th Semester</option>
+                        <option value="6">6th Semester</option>
+                        <option value="7">7th Semester</option>
+                        <option value="8">8th Semester</option>
+                    </select>
+                    <span class="error-message" id="semesterError"></span>
+                </div>
+            
+                <div class="col-md-6">
+                    <label for="fileDescription" class="form-label">File Description <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="fileDescription" name="fileDescription" placeholder="Enter file description">
+                    <span class="error-message" id="fileDescriptionError"></span>
+                </div>
+            
+                <div class="col-md-6">
+                    <label for="file" class="form-label">File <span class="text-danger">*</span></label>
+                    <input type="file" class="form-control" id="file" name="file">
+                    <span class="error-message" id="fileError"></span>
+                </div>
+            
+                <div class="col-md-12">
+                    <label for="announcement" class="form-label">Announcement <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="announcement" name="announcement" rows="3" placeholder="Enter announcement"></textarea>
+                    <span class="error-message" id="announcementError"></span>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-3 text-center">
+                    <button type="reset" name="reset" class="btn btn-warning w-100">RESET</button>
+                </div>
+                <div class="col-md-6" style="margin-bottom: 5px;"></div>
+                <div class="col-md-3 text-center">
+                    <button type="submit" name="submit" class="btn btn-success w-100">SUBMIT</button>
+                </div>
+            </div>
+          </form>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
+        </div>
+        <!--end::App Content-->
+      </main>
+      <!--end::App Main-->
+      <Footer />
+    </div>
+    <!--end::App Wrapper-->
+    <!--begin::Script-->
+    <Scripts path={path} />
+    <script>
+            // Attach submit event to the form
+            const form = document.getElementById('uploadForm');
+        
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent form submission for validation
+        
+                const fields = [
+                    { id: "subjectName", errorId: "subjectNameError", message: "Please select a subject." },
+                    { id: "semester", errorId: "semesterError", message: "Please select a semester." },
+                    { id: "fileDescription", errorId: "fileDescriptionError", message: "Please enter a file description." },
+                    { id: "file", errorId: "fileError", message: "Please upload a file." },
+                    { id: "announcement", errorId: "announcementError", message: "Please enter an announcement." }
+                ];
+        
+                let isValid = true;
+        
+                fields.forEach((field) => {
+                    const input = document.getElementById(field.id);
+                    const error = document.getElementById(field.errorId);
+        
+                    if (!input.value.trim() || (input.tagName === "SELECT" && input.value === "")) {
+                        input.classList.add("is-invalid");
+                        input.classList.remove("is-valid");
+                        error.textContent = field.message;
+                        error.style.display = "block";
+                        isValid = false;
+                    } else {
+                        input.classList.remove("is-invalid");
+                        input.classList.add("is-valid");
+                        error.style.display = "none";
+                    }
+                });
+        
+                // Special validation for file input
+                const fileInput = document.getElementById("file");
+                const fileError = document.getElementById("fileError");
+                if (fileInput.files.length === 0) {
+                    fileInput.classList.add("is-invalid");
+                    fileInput.classList.remove("is-valid");
+                    fileError.textContent = "Please upload a file.";
+                    fileError.style.display = "block";
+                    isValid = false;
+                } else {
+                    fileInput.classList.remove("is-invalid");
+                    fileInput.classList.add("is-valid");
+                    fileError.style.display = "none";
+                }
+        
+                // If the form is valid, allow submission
+                if (isValid) {
+                    form.submit(); // Submits the form to the action specified
+                }
+            });
+        
+            // Clear error messages on input focus
+            document.querySelectorAll("input, select, textarea").forEach((field) => {
+                field.addEventListener("focus", (event) => {
+                    const input = event.target;
+                    const error = document.getElementById(`${input.id}Error`);
+                    if (error) {
+                        error.style.display = "none";
+                        input.classList.remove("is-invalid");
+                    }
+                });
+        
+                field.addEventListener("blur", (event) => {
+                    const input = event.target;
+                    const error = document.getElementById(`${input.id}Error`);
+                    if (!input.value.trim() || (input.tagName === "SELECT" && input.value === "")) {
+                        input.classList.add("is-invalid");
+                        input.classList.remove("is-valid");
+                        if (error) error.style.display = "block";
+                    } else {
+                        input.classList.remove("is-invalid");
+                        input.classList.add("is-valid");
+                        if (error) error.style.display = "none";
+                    }
+                });
+            });
+        
+            // Special handling for file input
+            const fileInput = document.getElementById("file");
+            const fileError = document.getElementById("fileError");
+        
+            fileInput.addEventListener("change", () => {
+                if (fileInput.files.length === 0) {
+                    fileInput.classList.add("is-invalid");
+                    fileInput.classList.remove("is-valid");
+                    fileError.style.display = "block";
+                } else {
+                    fileInput.classList.remove("is-invalid");
+                    fileInput.classList.add("is-valid");
+                    fileError.style.display = "none";
+                }
+            });
+        </script>
+    <!--end::Script-->
+  </body><!--end::Body-->
+</html>

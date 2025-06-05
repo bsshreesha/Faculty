@@ -1,0 +1,1209 @@
+<!doctype html>
+<html lang="en" data-astro-cid-dvqe7mpd>
+  <!--begin::Head-->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Upload Previous Year Question Paper</title>
+    <!--begin::Primary Meta Tags-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="title" content="Upload Previous Year Question Paper" />
+    <meta name="author" content="ColorlibHQ" />
+    <meta
+      name="description"
+      content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS."
+    />
+    <meta
+      name="keywords"
+      content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard"
+    />
+    <!--end::Primary Meta Tags-->
+    <!--begin::Fonts-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
+      integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
+      crossorigin="anonymous"
+    />
+    <!--end::Fonts-->
+    <!--begin::Third Party Plugin(OverlayScrollbars)-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/styles/overlayscrollbars.min.css"
+      integrity="sha256-tZHrRjVqNSRyWg2wbppGnT833E/Ys0DHWGwT04GiqQg="
+      crossorigin="anonymous"
+    />
+    <!--end::Third Party Plugin(OverlayScrollbars)-->
+    <!--begin::Third Party Plugin(Bootstrap Icons)-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI="
+      crossorigin="anonymous"
+    />
+    <!--end::Third Party Plugin(Bootstrap Icons)-->
+    <!--begin::Required Plugin(AdminLTE)-->
+    <link rel="stylesheet" href="../../../dist/css/adminlte.css" />
+    <!--end::Required Plugin(AdminLTE)-->
+    <style>
+      .error-border[data-astro-cid-dvqe7mpd] {
+        border: 2px solid red !important;
+      }
+      .error-message[data-astro-cid-dvqe7mpd] {
+        font-size: 14px;
+        color: red;
+        margin-top: 5px;
+        display: block;
+      }
+      label[data-astro-cid-dvqe7mpd] {
+        font-weight: 700;
+      }
+      .file-upload-container[data-astro-cid-dvqe7mpd] {
+        border: 2px dashed;
+        border-radius: 15px;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        transition: all 0.3s ease;
+        min-height: 120px;
+        cursor: pointer;
+      }
+      .file-upload-container[data-astro-cid-dvqe7mpd]:hover {
+        border-color: #002855;
+      }
+      .file-upload-container[data-astro-cid-dvqe7mpd].error {
+        border-color: #dc3545;
+      }
+      .file-upload-container[data-astro-cid-dvqe7mpd].has-files {
+        border-style: solid;
+        border-color: #28a745;
+      }
+      .file-upload-container[data-astro-cid-dvqe7mpd].uploading {
+        border-color: #007bff;
+      }
+      .file-upload-button[data-astro-cid-dvqe7mpd] {
+        background: linear-gradient(135deg, #002855, #001f40);
+        color: #fff;
+        border: 2px solid #001f40;
+        padding: 0.65rem 2rem;
+        font-size: 0.95rem;
+        border-radius: 35px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px #00285533;
+        margin-top: -0.5rem;
+      }
+      .file-upload-button[data-astro-cid-dvqe7mpd]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px #0028554d;
+      }
+      .file-upload-text[data-astro-cid-dvqe7mpd] {
+        color: #6b7280;
+        text-align: center;
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+      .file-list[data-astro-cid-dvqe7mpd] {
+        border-radius: 10px;
+        padding: 1rem;
+        margin-top: 1rem;
+        border: 1px solid var(--bs-border-color, #dee2e6);
+        background-color: var(--bs-body-bg, #fff);
+        box-shadow: 0 2px 6px #0000000d;
+        width: 100%;
+        overflow-x: auto;
+        max-width: 100%;
+      }
+      .file-item[data-astro-cid-dvqe7mpd] {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--bs-border-color, #dee2e6);
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+      .file-item[data-astro-cid-dvqe7mpd]:hover {
+        background-color: var(--bs-tertiary-bg, #f8f9fa);
+        border-radius: 5px;
+      }
+      .file-item[data-astro-cid-dvqe7mpd]:last-child {
+        border-bottom: none;
+      }
+      .btn-group-custom[data-astro-cid-dvqe7mpd] {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid;
+      }
+      .upload-icon[data-astro-cid-dvqe7mpd] {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+      .upload-progress[data-astro-cid-dvqe7mpd] {
+        width: 100%;
+        margin-top: 1rem;
+      }
+      .progress-bar-animated[data-astro-cid-dvqe7mpd] {
+        animation: progress-bar-stripes 1s linear infinite;
+      }
+      @keyframes progress-bar-stripes {
+        0% {
+          background-position: 1rem 0;
+        }
+        to {
+          background-position: 0 0;
+        }
+      }
+      .file-preview-content[data-astro-cid-dvqe7mpd] {
+        max-height: 70vh;
+        overflow-y: auto;
+      }
+      .pdf-preview[data-astro-cid-dvqe7mpd] {
+        width: 100%;
+        height: 500px;
+        border: 1px solid;
+        border-radius: 5px;
+      }
+      .file-info[data-astro-cid-dvqe7mpd] {
+        padding: 1rem;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+      }
+      @media (max-width: 768px) {
+        body {
+          padding: 1rem 0;
+        }
+        .main-container[data-astro-cid-dvqe7mpd] {
+          margin: 0 1rem;
+          border-radius: 15px;
+        }
+        .form-header[data-astro-cid-dvqe7mpd] {
+          padding: 1.5rem 1rem;
+        }
+        .form-section[data-astro-cid-dvqe7mpd] {
+          padding: 1rem;
+        }
+        .btn-group-custom[data-astro-cid-dvqe7mpd] {
+          flex-direction: column;
+          align-items: center;
+        }
+        .file-upload-container[data-astro-cid-dvqe7mpd] {
+          padding: 1.5rem 1rem;
+        }
+      }
+      .fade-in[data-astro-cid-dvqe7mpd] {
+        animation: fadeIn 0.6s ease-in;
+      }
+    </style>
+  </head>
+  <!--end::Head-->
+  <!--begin::Body-->
+  <body
+    class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary"
+    data-astro-cid-dvqe7mpd
+  >
+    <!--begin::App Wrapper-->
+    <div class="app-wrapper" data-astro-cid-dvqe7mpd>
+      <!--begin::Header-->
+      <nav class="app-header navbar navbar-expand bg-body">
+        <!--begin::Container-->
+        <div class="container-fluid">
+          <!--begin::Start Navbar Links-->
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                <i class="bi bi-list"></i>
+              </a>
+            </li>
+            <li class="nav-item d-none d-md-block">
+              <a href="/index.html" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contact</a></li>
+          </ul>
+          <!--end::Start Navbar Links-->
+          <!--begin::End Navbar Links-->
+          <ul class="navbar-nav ms-auto">
+            <!--begin::Color Mode Toggle-->
+            <li class="nav-item dropdown">
+              <button
+                class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
+                id="bd-theme"
+                type="button"
+                aria-expanded="false"
+                data-bs-toggle="dropdown"
+                data-bs-display="static"
+              >
+                <span class="theme-icon-active"> <i class="my-1"></i> </span>
+                <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="bd-theme-text"
+                style="--bs-dropdown-min-width: 8rem"
+              >
+                <li>
+                  <button
+                    type="button"
+                    class="dropdown-item d-flex align-items-center active"
+                    data-bs-theme-value="light"
+                    aria-pressed="false"
+                  >
+                    <i class="bi bi-sun-fill me-2"></i>
+                    Light
+                    <i class="bi bi-check-lg ms-auto d-none"></i>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    class="dropdown-item d-flex align-items-center"
+                    data-bs-theme-value="dark"
+                    aria-pressed="false"
+                  >
+                    <i class="bi bi-moon-fill me-2"></i>
+                    Dark
+                    <i class="bi bi-check-lg ms-auto d-none"></i>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    class="dropdown-item d-flex align-items-center"
+                    data-bs-theme-value="auto"
+                    aria-pressed="true"
+                  >
+                    <i class="bi bi-circle-half me-2"></i>
+                    Auto
+                    <i class="bi bi-check-lg ms-auto d-none"></i>
+                  </button>
+                </li>
+              </ul>
+            </li>
+            <!--end::Color Mode Toggle-->
+            <!--begin::Fullscreen Toggle-->
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-lte-toggle="fullscreen">
+                <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
+                <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
+              </a>
+            </li>
+            <!--end::Fullscreen Toggle-->
+            <!--begin::User Menu Dropdown-->
+            <li class="nav-item dropdown user-menu">
+              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <img
+                  src="../../../dist/assets/img/avatar5.png"
+                  class="user-image rounded-circle shadow"
+                  alt="User Image"
+                />
+                <span class="d-none d-md-inline">Name</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                <!--begin::User Image-->
+                <li class="user-header text-bg-primary">
+                  <img
+                    src="../../../dist/assets/img/avatar5.png"
+                    class="rounded-circle shadow"
+                    alt="User Image"
+                  />
+                  <p>
+                    Name - Role
+                    <small>Member since Year</small>
+                  </p>
+                </li>
+                <!--end::User Image-->
+                <!--begin::Menu Footer-->
+                <li class="user-footer">
+                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+                </li>
+                <!--end::Menu Footer-->
+              </ul>
+            </li>
+            <!--end::User Menu Dropdown-->
+          </ul>
+          <!--end::End Navbar Links-->
+        </div>
+        <!--end::Container-->
+      </nav>
+      <!--end::Header-->
+      <!--begin::Sidebar-->
+      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+        <!--begin::Sidebar Brand-->
+        <div class="sidebar-brand">
+          <!--begin::Brand Link-->
+          <a href="../index.html" class="brand-link">
+            <!--begin::Brand Image-->
+            <i class="nav-icon bi bi-play-circle"></i>
+            <!--end::Brand Image-->
+            <!--begin::Brand Text-->
+            <span class="brand-text fw-light">Faculty Module</span>
+            <!--end::Brand Text-->
+          </a>
+          <!--end::Brand Link-->
+        </div>
+        <!--end::Sidebar Brand-->
+        <!--begin::Sidebar Wrapper-->
+        <div class="sidebar-wrapper">
+          <nav class="mt-2">
+            <!--begin::Sidebar Menu-->
+            <ul
+              class="nav sidebar-menu flex-column"
+              data-lte-toggle="treeview"
+              role="menu"
+              data-accordion="false"
+            >
+              <li class="nav-header">ACADEMIC MENU</li>
+              <li class="nav-item">
+                <a href="../index.html" class="nav-link">
+                  <i class="nav-icon bi bi-speedometer"></i>
+                  <p>Dashboard</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../classes.html" class="nav-link">
+                  <i class="nav-icon bi bi-people"></i>
+                  <p>My Classes</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-pencil-square"></i>
+                  <p>
+                    IA / Examinations
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="../exam/ia.html" class="nav-link">
+                      <i class="nav-icon bi bi-file-earmark-lock"></i>
+                      <p>Create Question Paper</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="../exam/entry.html" class="nav-link">
+                      <i class="nav-icon bi bi-8-circle"></i>
+                      <p>IA Marks Entry</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="../exam/quiz.html" class="nav-link">
+                      <i class="nav-icon bi bi-pencil"></i>
+                      <p>Create Quiz</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="../exam/results.html" class="nav-link">
+                      <i class="nav-icon bi bi-bar-chart"></i>
+                      <p>SEE Results</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-pen"></i>
+                  <p>
+                    Assignments
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="../assign/create.html" class="nav-link">
+                      <i class="nav-icon bi bi-file-earmark-plus"></i>
+                      <p>Create Assignments</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="../assign/review.html" class="nav-link">
+                      <i class="nav-icon bi bi-check2-square"></i>
+                      <p>Review Assignments</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="../attend.html" class="nav-link">
+                  <i class="nav-icon bi bi-person-vcard"></i>
+                  <p>Attendance</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../elearn/learn.html" class="nav-link">
+                  <i class="nav-icon bi bi-laptop"></i>
+                  <p>e-learning</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../timetable.html" class="nav-link">
+                  <i class="nav-icon bi bi-calendar-event"></i>
+                  <p>My Timetable</p>
+                </a>
+              </li>
+              <li class="nav-item menu-open">
+                <a href="#" class="nav-link active">
+                  <i class="nav-icon bi bi-folder"></i>
+                  <p>
+                    Reference Materials
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="../refer/study.html" class="nav-link active">
+                      <i class="nav-icon bi bi-file-earmark-pdf"></i>
+                      <p>Upload Study Materials</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="../refer/qp.html" class="nav-link">
+                      <i class="nav-icon bi bi-paperclip"></i>
+                      <p>Upload Question Papers</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="../refer/docs.html" class="nav-link">
+                      <i class="nav-icon bi bi-list-ol"></i>
+                      <p>View Uploaded Data</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-diagram-2"></i>
+                  <p>
+                    Mapping
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="../mapping/sub-fac_map.html" class="nav-link">
+                      <i class="nav-icon bi bi-person-gear"></i>
+                      <p>Map Subject</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="../mapping/viewMap.html" class="nav-link">
+                      <i class="nav-icon bi bi-card-list"></i>
+                      <p>View Mapping</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="../plan.html" class="nav-link">
+                  <i class="nav-icon bi bi-journal"></i>
+                  <p>Course Plan</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../mentor.html" class="nav-link">
+                  <i class="nav-icon bi bi-chat-right-text"></i>
+                  <p>Mentoring</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../feedback.html" class="nav-link">
+                  <i class="nav-icon bi bi-send-fill"></i>
+                  <p>My Feedback</p>
+                </a>
+              </li>
+              <li class="nav-header">IDENTITY AND DATA ACCESS</li>
+              <li class="nav-item">
+                <a href="../biometrics.html" class="nav-link">
+                  <i class="nav-icon bi bi-fingerprint"></i>
+                  <p>Biometrics</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-person-video3"></i>
+                  <p>
+                    Faculty / Professors
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="../faculty/add.html" class="nav-link">
+                      <i class="nav-icon bi bi-person-plus"></i>
+                      <p>Add Faculty</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="../faculty/view.html" class="nav-link">
+                      <i class="nav-icon bi bi-person-workspace"></i>
+                      <p>View Faculty Data</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-people"></i>
+                  <p>
+                    Students
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="../students/add_stu.html" class="nav-link">
+                      <i class="nav-icon bi bi-person-add"></i>
+                      <p>Add Students</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="../students/data.html" class="nav-link">
+                      <i class="nav-icon bi bi-database"></i>
+                      <p>View Students Data</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-header">REPORTS</li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-file-earmark-diff-fill"></i>
+                  <p>
+                    Reports
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="../#" class="nav-link">
+                      <i class="nav-icon bi bi-file-earmark"></i>
+                      <p>Attendance Reports</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="../#" class="nav-link">
+                      <i class="nav-icon bi bi-file-medical"></i>
+                      <p>Leave Reports</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-header">LEAVE MANAGEMENT</li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-person-dash"></i>
+                  <p>
+                    Leave Management
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="../#.html" class="nav-link">
+                      <i class="nav-icon bi bi-calendar"></i>
+                      <p>Schedule Leave</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="../#.html" class="nav-link">
+                      <i class="nav-icon bi bi-check-square"></i>
+                      <p>View Approval Status</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-header">AUTHORISATION</li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-box-arrow-in-right"></i>
+                  <p>
+                    Auth
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="../examples/lockscreen.html" class="nav-link">
+                      <i class="nav-icon bi bi-lock"></i>
+                      <p>Lockscreen</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <!--end::Sidebar Menu-->
+          </nav>
+        </div>
+        <!--end::Sidebar Wrapper-->
+      </aside>
+      <!--end::Sidebar-->
+      <!--begin::App Main-->
+      <main class="app-main" data-astro-cid-dvqe7mpd>
+        <!--begin::App Content Header-->
+        <div class="app-content-header" data-astro-cid-dvqe7mpd>
+          <!--begin::Container-->
+          <div class="container-fluid" data-astro-cid-dvqe7mpd>
+            <!--begin::Row-->
+            <div class="row" data-astro-cid-dvqe7mpd>
+              <div class="col-sm-6" data-astro-cid-dvqe7mpd>
+                <h3 class="mb-0" data-astro-cid-dvqe7mpd>Upload Previous Year Question Paper</h3>
+              </div>
+              <div class="col-sm-6" data-astro-cid-dvqe7mpd>
+                <ol class="breadcrumb float-sm-end" data-astro-cid-dvqe7mpd>
+                  <li class="breadcrumb-item" data-astro-cid-dvqe7mpd>
+                    <a href="/index.html" data-astro-cid-dvqe7mpd>Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page" data-astro-cid-dvqe7mpd>
+                    Previous Year Question Paper
+                  </li>
+                </ol>
+              </div>
+            </div>
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
+        </div>
+        <!--end::App Content Header-->
+        <!--begin::App Content-->
+        <div class="app-content" data-astro-cid-dvqe7mpd>
+          <!--begin::Container-->
+          <div class="container-fluid" data-astro-cid-dvqe7mpd>
+            <!--begin::Row-->
+            <div class="row" data-astro-cid-dvqe7mpd>
+              <div class="col-12" data-astro-cid-dvqe7mpd>
+                <!-- Default box -->
+                <div class="card" data-astro-cid-dvqe7mpd>
+                  <div class="card-header" data-astro-cid-dvqe7mpd>
+                    <h3 class="card-title" data-astro-cid-dvqe7mpd>
+                      Form to Upload Previous Year Question Paper
+                    </h3>
+                    <div class="card-tools" data-astro-cid-dvqe7mpd>
+                      <button
+                        type="button"
+                        class="btn btn-tool"
+                        data-lte-toggle="card-collapse"
+                        title="Collapse"
+                        data-astro-cid-dvqe7mpd
+                      >
+                        <i data-lte-icon="expand" class="bi bi-plus-lg" data-astro-cid-dvqe7mpd></i>
+                        <i
+                          data-lte-icon="collapse"
+                          class="bi bi-dash-lg"
+                          data-astro-cid-dvqe7mpd
+                        ></i>
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-tool"
+                        data-lte-toggle="card-remove"
+                        title="Remove"
+                        data-astro-cid-dvqe7mpd
+                      >
+                        <i class="bi bi-x-lg" data-astro-cid-dvqe7mpd></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="card-body" data-astro-cid-dvqe7mpd>
+                    <form
+                      id="py_quespaper"
+                      action="/py_questionpaper"
+                      enctype="multipart/form-data"
+                      data-astro-cid-dvqe7mpd
+                    >
+                      <div class="row g-3" data-astro-cid-dvqe7mpd>
+                        <!-- Title -->
+                        <div class="col-md-12" data-astro-cid-dvqe7mpd>
+                          <label for="title" class="form-label" data-astro-cid-dvqe7mpd
+                            >Title <span class="text-danger" data-astro-cid-dvqe7mpd>*</span></label
+                          >
+                          <div class="input-group" data-astro-cid-dvqe7mpd>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="title"
+                              name="title"
+                              placeholder="Enter the Title of the file"
+                              autocomplete="off"
+                              data-astro-cid-dvqe7mpd
+                            />
+                            <span
+                              class="input-group-text"
+                              data-bs-toggle="tooltip"
+                              data-bs-placement="top"
+                              title="Provide a clear and concise title (e.g., 'Unit 2 Notes'). Avoid special characters."
+                              data-astro-cid-dvqe7mpd
+                            >
+                              <i class="bi bi-info-circle" data-astro-cid-dvqe7mpd></i>
+                            </span>
+                          </div>
+                          <span
+                            class="error-message"
+                            id="titleError"
+                            data-astro-cid-dvqe7mpd
+                          ></span>
+                        </div>
+                        <!-- Subject -->
+                        <div class="col-md-6" data-astro-cid-dvqe7mpd>
+                          <label for="subject" class="form-label" data-astro-cid-dvqe7mpd
+                            >Subject
+                            <span class="text-danger" data-astro-cid-dvqe7mpd>*</span></label
+                          >
+                          <div class="input-group" data-astro-cid-dvqe7mpd>
+                            <select
+                              class="form-select"
+                              id="subject"
+                              name="subject"
+                              data-astro-cid-dvqe7mpd
+                            >
+                              <option value="" disabled selected data-astro-cid-dvqe7mpd>
+                                Select Subject
+                              </option>
+                              <option value="21MAT11" data-astro-cid-dvqe7mpd>
+                                21MAT11 - Calculus and Differential Equation
+                              </option>
+                              <option value="21MAT21" data-astro-cid-dvqe7mpd>
+                                21MAT21 - Advanced Calculus and Numerical Methods
+                              </option>
+                              <option value="21MAT31" data-astro-cid-dvqe7mpd>
+                                21MAT31 - Transform Calculus, Fourier Series and Numerical Methods
+                              </option>
+                              <option value="21MATCS41" data-astro-cid-dvqe7mpd>
+                                21MATCS41 - Mathematical Foundations of Computing
+                              </option>
+                              <option value="21MAT656" data-astro-cid-dvqe7mpd>
+                                21MAT656 - Mathematics for Machine Learning
+                              </option>
+                              <option value="21CV752" data-astro-cid-dvqe7mpd>
+                                21CV752 - Numerical Methods and Applications
+                              </option>
+                              <!-- Add more options as needed -->
+                            </select>
+                            <span
+                              class="input-group-text"
+                              data-bs-toggle="tooltip"
+                              data-bs-placement="top"
+                              title="Select the subject code from the curriculum."
+                              data-astro-cid-dvqe7mpd
+                            >
+                              <i class="bi bi-info-circle" data-astro-cid-dvqe7mpd></i>
+                            </span>
+                          </div>
+                          <span
+                            class="error-message"
+                            id="subjectError"
+                            data-astro-cid-dvqe7mpd
+                          ></span>
+                        </div>
+                        <!-- Semester -->
+                        <div class="col-md-6" data-astro-cid-dvqe7mpd>
+                          <label for="semester" class="form-label" data-astro-cid-dvqe7mpd
+                            >Semester
+                            <span class="text-danger" data-astro-cid-dvqe7mpd>*</span></label
+                          >
+                          <div class="input-group" data-astro-cid-dvqe7mpd>
+                            <select
+                              class="form-select"
+                              id="semester"
+                              name="semester"
+                              data-astro-cid-dvqe7mpd
+                            >
+                              <option value="" selected disabled data-astro-cid-dvqe7mpd>
+                                Select Semester
+                              </option>
+                              <option value="1" data-astro-cid-dvqe7mpd>1st Semester</option>
+                              <option value="2" data-astro-cid-dvqe7mpd>2nd Semester</option>
+                              <option value="3" data-astro-cid-dvqe7mpd>3rd Semester</option>
+                              <option value="4" data-astro-cid-dvqe7mpd>4th Semester</option>
+                              <option value="5" data-astro-cid-dvqe7mpd>5th Semester</option>
+                              <option value="6" data-astro-cid-dvqe7mpd>6th Semester</option>
+                              <option value="7" data-astro-cid-dvqe7mpd>7th Semester</option>
+                              <option value="8" data-astro-cid-dvqe7mpd>8th Semester</option>
+                              <!-- Add more if needed -->
+                            </select>
+                            <span
+                              class="input-group-text"
+                              data-bs-toggle="tooltip"
+                              data-bs-placement="top"
+                              title="Select the semester to which this file applies."
+                              data-astro-cid-dvqe7mpd
+                            >
+                              <i class="bi bi-info-circle" data-astro-cid-dvqe7mpd></i>
+                            </span>
+                          </div>
+                          <span
+                            class="error-message"
+                            id="semesterError"
+                            data-astro-cid-dvqe7mpd
+                          ></span>
+                        </div>
+                        <!-- File Description -->
+                        <div class="col-md-12" data-astro-cid-dvqe7mpd>
+                          <label for="fileDescription" class="form-label" data-astro-cid-dvqe7mpd
+                            >File Description
+                            <span class="text-danger" data-astro-cid-dvqe7mpd>*</span></label
+                          >
+                          <div class="input-group" data-astro-cid-dvqe7mpd>
+                            <textarea
+                              class="form-control"
+                              id="fileDescription"
+                              name="fileDescription"
+                              placeholder="Enter file description"
+                              rows="1"
+                              data-astro-cid-dvqe7mpd
+                            ></textarea>
+                            <span
+                              class="input-group-text"
+                              data-bs-toggle="tooltip"
+                              data-bs-placement="top"
+                              title="Briefly describe the contents of the file (e.g., 'Solutions for Assignment 1')."
+                              data-astro-cid-dvqe7mpd
+                            >
+                              <i class="bi bi-info-circle" data-astro-cid-dvqe7mpd></i>
+                            </span>
+                          </div>
+                          <span
+                            class="error-message"
+                            id="fileDescriptionError"
+                            data-astro-cid-dvqe7mpd
+                          ></span>
+                        </div>
+                        <!-- File Upload Section -->
+                        <div class="col-md-12" data-astro-cid-dvqe7mpd>
+                          <label for="file" class="form-label" data-astro-cid-dvqe7mpd>
+                            Upload Files
+                            <span style="font-size: 0.85rem; color: #6b7280" data-astro-cid-dvqe7mpd
+                              >(Maximum 5 files)</span
+                            >
+                            <span class="text-danger" data-astro-cid-dvqe7mpd>*</span>
+                          </label>
+                          <div class="input-group" data-astro-cid-dvqe7mpd>
+                            <div
+                              class="file-upload-container form-control p-0"
+                              id="fileUploadContainer"
+                              data-astro-cid-dvqe7mpd
+                            >
+                              <i class="bi bi-cloud-upload upload-icon" data-astro-cid-dvqe7mpd></i>
+                              <div
+                                class="file-upload-text"
+                                id="fileUploadText"
+                                data-astro-cid-dvqe7mpd
+                              >
+                                <strong data-astro-cid-dvqe7mpd>Click to browse files</strong
+                                ><br data-astro-cid-dvqe7mpd />
+                                or drag and drop your files here<br data-astro-cid-dvqe7mpd />
+                                <small data-astro-cid-dvqe7mpd
+                                  >PDF, Word (.docx), PowerPoint (.pptx) • Max 100MB each</small
+                                >
+                              </div>
+                              <label
+                                class="file-upload-button mb-0"
+                                style="cursor: pointer"
+                                data-astro-cid-dvqe7mpd
+                              >
+                                <i class="bi bi-folder2-open me-2" data-astro-cid-dvqe7mpd></i
+                                >Browse Files
+                                <input
+                                  type="file"
+                                  multiple
+                                  hidden
+                                  id="file"
+                                  name="file"
+                                  accept=".pdf,.docx,.pptx"
+                                  data-astro-cid-dvqe7mpd
+                                />
+                              </label>
+                              <!-- Upload Progress -->
+                              <div
+                                class="upload-progress"
+                                id="uploadProgress"
+                                style="display: none"
+                                data-astro-cid-dvqe7mpd
+                              >
+                                <div class="progress" data-astro-cid-dvqe7mpd>
+                                  <div
+                                    class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                                    role="progressbar"
+                                    style="width: 0%"
+                                    id="progressBar"
+                                    data-astro-cid-dvqe7mpd
+                                  >
+                                    <span id="progressText" data-astro-cid-dvqe7mpd>0%</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="file-list"
+                                id="fileList"
+                                style="display: none"
+                                data-astro-cid-dvqe7mpd
+                              ></div>
+                            </div>
+                            <span
+                              class="input-group-text"
+                              data-bs-toggle="tooltip"
+                              data-bs-placement="top"
+                              title="Upload up to 5 files. File format such as PDF, Word(.docx) and Presentation (.pptx) is allowed. Each file should be under 100MB."
+                              data-astro-cid-dvqe7mpd
+                            >
+                              <i class="bi bi-info-circle" data-astro-cid-dvqe7mpd></i>
+                            </span>
+                          </div>
+                          <span class="error-message" id="fileError" data-astro-cid-dvqe7mpd></span>
+                        </div>
+                        <div class="row mt-4" data-astro-cid-dvqe7mpd>
+                          <div class="col-md-3 text-center" data-astro-cid-dvqe7mpd>
+                            <button
+                              type="reset"
+                              name="reset"
+                              class="btn btn-warning w-100"
+                              data-astro-cid-dvqe7mpd
+                            >
+                              RESET
+                            </button>
+                          </div>
+                          <div
+                            class="col-md-6"
+                            style="margin-bottom: 5px"
+                            data-astro-cid-dvqe7mpd
+                          ></div>
+                          <div class="col-md-3 text-center" data-astro-cid-dvqe7mpd>
+                            <button
+                              type="submit"
+                              class="btn btn-success w-100"
+                              data-astro-cid-dvqe7mpd
+                            >
+                              SUBMIT
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <!-- File Confirmation Modal -->
+                  <div
+                    class="modal fade"
+                    id="filePreviewModal"
+                    tabindex="-1"
+                    aria-labelledby="filePreviewModalLabel"
+                    aria-hidden="true"
+                    data-astro-cid-dvqe7mpd
+                  >
+                    <div
+                      class="modal-dialog modal-xl modal-dialog-centered"
+                      data-astro-cid-dvqe7mpd
+                    >
+                      <div class="modal-content" data-astro-cid-dvqe7mpd>
+                        <div class="modal-header bg-primary" data-astro-cid-dvqe7mpd>
+                          <h5
+                            class="modal-title"
+                            id="filePreviewModalLabel"
+                            data-astro-cid-dvqe7mpd
+                          >
+                            <i class="bi bi-file-earmark-check me-2" data-astro-cid-dvqe7mpd></i
+                            >File Confirmation & Preview
+                          </h5>
+                          <button
+                            type="button"
+                            class="btn-close btn-close-white"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                            data-astro-cid-dvqe7mpd
+                          ></button>
+                        </div>
+                        <div
+                          class="modal-body file-preview-content"
+                          id="filePreviewContent"
+                          data-astro-cid-dvqe7mpd
+                        >
+                          <!-- File confirmation content will be inserted here -->
+                        </div>
+                        <div class="modal-footer" data-astro-cid-dvqe7mpd>
+                          <button
+                            type="button"
+                            class="btn btn-outline-danger"
+                            id="removeFileBtn"
+                            data-astro-cid-dvqe7mpd
+                          >
+                            <i class="bi bi-trash me-1" data-astro-cid-dvqe7mpd></i>Remove File
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                            data-astro-cid-dvqe7mpd
+                          >
+                            <i class="bi bi-x-circle me-1" data-astro-cid-dvqe7mpd></i>Close
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-success"
+                            data-bs-dismiss="modal"
+                            data-astro-cid-dvqe7mpd
+                          >
+                            <i class="bi bi-check-circle me-1" data-astro-cid-dvqe7mpd></i>Confirm &
+                            Keep
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
+        </div>
+        <!--end::App Content-->
+      </main>
+      <!--end::App Main-->
+      <!--begin::Footer-->
+      <footer class="app-footer">
+        <!--begin::To the end-->
+        <div class="float-end d-none d-sm-inline">v4.0.3</div>
+        <!--end::To the end-->
+        <!--begin::Copyright-->
+        <strong>
+          Copyright &copy; 2025&nbsp;
+          <a href="https://" target="_blank" class="text-decoration-none">Neosis</a>.
+        </strong>
+        All rights reserved.
+        <!--end::Copyright-->
+      </footer>
+      <!--end::Footer-->
+    </div>
+    <!--end::App Wrapper-->
+    <!--begin::Script-->
+    <!--begin::Third Party Plugin(OverlayScrollbars)-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
+      integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ="
+      crossorigin="anonymous"
+    ></script>
+    <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      crossorigin="anonymous"
+    ></script>
+    <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
+    <script src="../../../dist/js/adminlte.js"></script>
+    <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
+    <script>
+      const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
+      const Default = {
+        scrollbarTheme: 'os-theme-light',
+        scrollbarAutoHide: 'leave',
+        scrollbarClickScroll: true,
+      };
+      document.addEventListener('DOMContentLoaded', function () {
+        const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+        if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
+          OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+            scrollbars: {
+              theme: Default.scrollbarTheme,
+              autoHide: Default.scrollbarAutoHide,
+              clickScroll: Default.scrollbarClickScroll,
+            },
+          });
+        }
+      });
+    </script>
+    <!--end::OverlayScrollbars Configure-->
+    <script>
+      // Color Mode Toggler
+      (() => {
+        'use strict';
+
+        const storedTheme = localStorage.getItem('theme');
+
+        const getPreferredTheme = () => {
+          if (storedTheme) {
+            return storedTheme;
+          }
+
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        };
+
+        const setTheme = function (theme) {
+          if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-bs-theme', 'dark');
+          } else {
+            document.documentElement.setAttribute('data-bs-theme', theme);
+          }
+        };
+
+        setTheme(getPreferredTheme());
+
+        const showActiveTheme = (theme, focus = false) => {
+          const themeSwitcher = document.querySelector('#bd-theme');
+
+          if (!themeSwitcher) {
+            return;
+          }
+
+          const themeSwitcherText = document.querySelector('#bd-theme-text');
+          const activeThemeIcon = document.querySelector('.theme-icon-active i');
+          const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`);
+          const svgOfActiveBtn = btnToActive.querySelector('i').getAttribute('class');
+
+          for (const element of document.querySelectorAll('[data-bs-theme-value]')) {
+            element.classList.remove('active');
+            element.setAttribute('aria-pressed', 'false');
+          }
+
+          btnToActive.classList.add('active');
+          btnToActive.setAttribute('aria-pressed', 'true');
+          activeThemeIcon.setAttribute('class', svgOfActiveBtn);
+          const themeSwitcherLabel = `${themeSwitcherText.textContent} (${btnToActive.dataset.bsThemeValue})`;
+          themeSwitcher.setAttribute('aria-label', themeSwitcherLabel);
+
+          if (focus) {
+            themeSwitcher.focus();
+          }
+        };
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+          if (storedTheme !== 'light' || storedTheme !== 'dark') {
+            setTheme(getPreferredTheme());
+          }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+          showActiveTheme(getPreferredTheme());
+
+          for (const toggle of document.querySelectorAll('[data-bs-theme-value]')) {
+            toggle.addEventListener('click', () => {
+              const theme = toggle.getAttribute('data-bs-theme-value');
+              localStorage.setItem('theme', theme);
+              setTheme(theme);
+              showActiveTheme(theme, true);
+            });
+          }
+        });
+      })();
+    </script>
+    <script
+      type="module"
+      src="/_astro/qp.astro_astro_type_script_index_0_lang.BZ_xjRIx.js"
+    ></script>
+    <!--end::Script-->
+  </body>
+  <!--end::Body-->
+</html>

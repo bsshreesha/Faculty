@@ -1,0 +1,432 @@
+---
+import {convertPathToHtml} from "../../../utils/index.js";
+const {path, mainPage, page} = Astro.props;
+const htmlPath = convertPathToHtml(path);
+---
+
+<!--begin::Sidebar-->
+<aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+  <!--begin::Sidebar Brand-->
+  <div class="sidebar-brand">
+    <!--begin::Brand Link-->
+    <a href={htmlPath + "/index.html"} class="brand-link">
+      <!--begin::Brand Image-->
+      <i class="nav-icon bi bi-play-circle"></i>
+      <!--end::Brand Image-->
+      <!--begin::Brand Text-->
+      <span class="brand-text fw-light">Faculty Module</span>
+      <!--end::Brand Text-->
+    </a>
+    <!--end::Brand Link-->
+  </div>
+  <!--end::Sidebar Brand-->
+  <!--begin::Sidebar Wrapper-->
+  <div class="sidebar-wrapper">
+    <nav class="mt-2">
+      <!--begin::Sidebar Menu-->
+      <ul
+        class="nav sidebar-menu flex-column"
+        data-lte-toggle="treeview"
+        role="menu"
+        data-accordion="false"
+      >
+      <li class="nav-header">ACADEMIC MENU</li>
+        <li class="nav-item">
+          <a
+            href={htmlPath + "/index.html"}
+            class:list={["nav-link", page === "index" && "active"]}
+          >
+            <i class="nav-icon bi bi-speedometer"></i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            href={htmlPath + "/classes.html"}
+            class:list={["nav-link", page === "classes" && "active"]}
+          >
+            <i class="nav-icon bi bi-people"></i>
+            <p>My Classes</p>
+          </a>
+        </li>
+
+        <li class:list={["nav-item", mainPage === "exam" && "menu-open"]}>
+          <a
+            href="#"
+            class:list={["nav-link", mainPage === "exam" && "active"]}
+          >
+            <i class="nav-icon bi bi-pencil-square"></i>
+            <p>
+              IA / Examinations
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a
+                href={htmlPath + "/exam/ia.html"}
+                class:list={["nav-link", page === "ia" && "active"]}
+              >
+                <i class="nav-icon bi bi-file-earmark-lock"></i>
+                <p>Create Question Paper</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href={htmlPath + "/exam/entry.html"}
+                class:list={["nav-link", page === "entry" && "active"]}
+              >
+                <i class="nav-icon bi bi-8-circle"></i>
+                <p>IA Marks Entry</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href={htmlPath + "/exam/quiz.html"}
+                class:list={["nav-link", page === "quiz" && "active"]}
+              >
+                <i class="nav-icon bi bi-pencil"></i>
+                <p>Create Quiz</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href={htmlPath + "/exam/results.html"}
+                class:list={["nav-link", page === "results" && "active"]}
+              >
+                <i class="nav-icon bi bi-bar-chart"></i>
+                <p>SEE Results</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class:list={["nav-item", mainPage === "assign" && "menu-open"]}>
+          <a
+            href="#"
+            class:list={["nav-link", mainPage === "assign" && "active"]}
+          >
+            <i class="nav-icon bi bi-pen"></i>
+            <p>
+              Assignments
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a
+                href={htmlPath + "/assign/create.html"}
+                class:list={[
+                  "nav-link",
+                  page === "create" && "active",
+                ]}
+              >
+                <i class="nav-icon bi bi-file-earmark-plus"></i>
+                <p>Create Assignments</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href={htmlPath + "/assign/review.html"}
+                class:list={["nav-link", page === "review" && "active"]}
+              >
+                <i class="nav-icon bi bi-check2-square"></i>
+                <p>Review Assignments</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a
+            href={htmlPath + "/attend.html"}
+            class:list={["nav-link", page === "attend" && "active"]}
+          >
+            <i class="nav-icon bi bi-person-vcard"></i>
+            <p>Attendance</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            href={htmlPath + "/elearn/learn.html"}
+            class:list={["nav-link", page === "learn" && "active"]}
+          >
+            <i class="nav-icon bi bi-laptop"></i>
+            <p>e-learning</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            href={htmlPath + "/timetable.html"}
+            class:list={["nav-link", page === "timetable" && "active"]}
+          >
+            <i class="nav-icon bi bi-calendar-event"></i>
+            <p>My Timetable</p>
+          </a>
+        </li>
+
+        <li
+          class:list={["nav-item", mainPage === "refer" && "menu-open"]}
+        >
+          <a
+            href="#"
+            class:list={["nav-link", mainPage === "refer" && "active"]}
+          >
+            <i class="nav-icon bi bi-folder"></i>
+            <p>
+              Reference Materials
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a
+                href={htmlPath + "/refer/study.html"}
+                class:list={["nav-link", page === "study" && "active"]}
+              >
+                <i class="nav-icon bi bi-file-earmark-pdf"></i>
+                <p>Upload Study Materials</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href={htmlPath + "/refer/qp.html"}
+                class:list={["nav-link", page === "qp" && "active"]}
+              >
+                <i class="nav-icon bi bi-paperclip"></i>
+                <p>Upload Question Papers</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href={htmlPath + "/refer/docs.html"}
+                class:list={["nav-link", page === "docs" && "active"]}
+              >
+                <i class="nav-icon bi bi-list-ol"></i>
+                <p>View Uploaded Data</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+         <li class:list={["nav-item", mainPage === "mapping" && "menu-open"]}>
+          <a
+            href="#"
+            class:list={["nav-link", mainPage === "mapping" && "active"]}
+          >
+            <i class="nav-icon bi bi-diagram-2"></i>
+            <p>
+              Mapping
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a
+                href={htmlPath + "/mapping/sub-fac_map.html"}
+                class:list={[
+                  "nav-link",
+                  page === "sub-fac_map" && "active",
+                ]}
+              >
+                <i class="nav-icon bi bi-person-gear"></i>
+                <p>Map Subject</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href={htmlPath + "/mapping/viewMap.html"}
+                class:list={["nav-link", page === "viewMap" && "active"]}
+              >
+                <i class="nav-icon bi bi-card-list"></i>
+                <p>View Mapping</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a
+            href={htmlPath + "/plan.html"}
+            class:list={["nav-link", page === "plan" && "active"]}
+          >
+            <i class="nav-icon bi bi-journal"></i>
+            <p>Course Plan</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            href={htmlPath + "/mentor.html"}
+            class:list={["nav-link", page === "mentor" && "active"]}
+          >
+            <i class="nav-icon bi bi-chat-right-text"></i>
+            <p>Mentoring</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            href={htmlPath + "/feedback.html"}
+            class:list={["nav-link", page === "feedback" && "active"]}
+          >
+            <i class="nav-icon bi bi-send-fill"></i>
+            <p>My Feedback</p>
+          </a>
+        </li>
+
+        <li class="nav-header">IDENTITY AND DATA ACCESS</li>
+         <li class="nav-item">
+          <a
+            href={htmlPath + "/biometrics.html"}
+            class:list={["nav-link", page === "biometrics" && "active"]}
+          >
+            <i class="nav-icon bi bi-fingerprint"></i>
+            <p>Biometrics</p>
+          </a>
+        </li>
+
+        <li class:list={["nav-item", mainPage === "faculty" && "menu-open"]}>
+          <a
+            href="#"
+            class:list={["nav-link", mainPage === "faculty" && "active"]}
+          >
+            <i class="nav-icon bi bi-person-video3"></i>
+            <p>
+              Faculty / Professors
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a
+                href={htmlPath + "/faculty/add.html"}
+                class:list={["nav-link", page === "add" && "active"]}
+              >
+                <i class="nav-icon bi bi-person-plus"></i>
+                <p>Add Faculty</p>
+              </a>
+            </li>
+             <li class="nav-item">
+              <a
+                href={htmlPath + "/faculty/view.html"}
+                class:list={["nav-link", page === "view" && "active"]}
+              >
+                <i class="nav-icon bi bi-person-workspace"></i>
+                <p>View Faculty Data</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class:list={["nav-item", mainPage === "students" && "menu-open"]}>
+          <a
+            href="#"
+            class:list={["nav-link", mainPage === "students" && "active"]}
+          >
+            <i class="nav-icon bi bi-people"></i>
+            <p>
+              Students
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a
+                href={htmlPath + "/students/add_stu.html"}
+                class:list={["nav-link", page === "add_stu" && "active"]}
+              >
+                <i class="nav-icon bi bi-person-add"></i>
+                <p>Add Students</p>
+              </a>
+            </li>
+             <li class="nav-item">
+              <a
+                href={htmlPath + "/students/data.html"}
+                class:list={["nav-link", page === "data" && "active"]}
+              >
+                <i class="nav-icon bi bi-database"></i>
+                <p>View Students Data</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-header">REPORTS</li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon bi bi-file-earmark-diff-fill"></i>
+            <p>
+              Reports
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+              <li class="nav-item">
+              <a href={htmlPath + "/#"} class="nav-link">
+                <i class="nav-icon bi bi-file-earmark"></i>
+                <p>Attendance Reports</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href={htmlPath + "/#"} class="nav-link">
+                <i class="nav-icon bi bi-file-medical"></i>
+                <p>Leave Reports</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-header">LEAVE MANAGEMENT</li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon bi bi-person-dash"></i>
+            <p>
+              Leave Management
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+              <li class="nav-item">
+              <a href={htmlPath + "/#.html"} class="nav-link">
+                <i class="nav-icon bi bi-calendar"></i>
+                <p>Schedule Leave</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href={htmlPath + "/#.html"} class="nav-link">
+                <i class="nav-icon bi bi-check-square"></i>
+                <p>View Approval Status</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-header">AUTHORISATION</li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon bi bi-box-arrow-in-right"></i>
+            <p>
+              Auth
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href={htmlPath + "/examples/lockscreen.html"} class="nav-link">
+                <i class="nav-icon bi bi-lock"></i>
+                <p>Lockscreen</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <!--end::Sidebar Menu-->
+    </nav>
+  </div>
+  <!--end::Sidebar Wrapper-->
+</aside>
+<!--end::Sidebar-->
