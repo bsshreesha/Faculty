@@ -444,851 +444,773 @@ const page = "qp";
     <!--begin::Script-->
     <Scripts path={path} />
     <script>
-   document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("py_quespaper");
-    const fileInput = document.querySelector("#file");
-    const fileUploadContainer = document.getElementById("fileUploadContainer");
-    const fileUploadText = document.getElementById("fileUploadText");
-    const fileList = document.getElementById("fileList");
-    const fileError = document.getElementById("fileError");
-    const submitButton = document.querySelector('button[type="submit"]');
-    const resetButton = document.querySelector('button[type="reset"]');
-    const uploadProgress = document.getElementById("uploadProgress");
-    const progressBar = document.getElementById("progressBar");
-    const progressText = document.getElementById("progressText");
+    /**
+ * AdminLTE Study Material Form Handler
+ * Optimized for AdminLTE theme with modern JavaScript practices
+ */
 
-    // Store files manually to maintain state
-    let selectedFiles = [];
-    let isSubmitting = false;
-
-    // Fields to validate
-    const fields = [
-        { id: "subject", errorId: "subjectError", message: "Please select a subject." },
-        { id: "semester", errorId: "semesterError", message: "Please select a semester." },
-        { id: "title", errorId: "titleError", message: "Please enter a title." },
-        { id: "file", errorId: "fileError", message: "Please upload a file." },
-        { id: "fileDescription", errorId: "fileDescriptionError", message: "Please enter a file description." },
-    ];
-
-    // Simulate upload progress
-    function simulateUpload() {
-        fileUploadContainer.classList.add('uploading');
-        uploadProgress.style.display = 'block';
+class StudyMaterialFormHandler {
+    constructor() {
+        this.selectedFiles = [];
+        this.isSubmitting = false;
+        this.maxFiles = 5;
+        this.maxFileSize = 100 * 1024 * 1024; // 100MB
+        this.allowedFormats = ['pdf', 'docx', 'doc', 'pptx', 'ppt', 'txt'];
         
-        let progress = 0;
-        const interval = setInterval(() => {
-            progress += Math.random() * 15;
-            if (progress > 100) progress = 100;
-            
-            progressBar.style.width = progress + '%';
-            progressText.textContent = Math.round(progress) + '%';
-            
-            if (progress >= 100) {
-                clearInterval(interval);
-                setTimeout(() => {
-                    uploadProgress.style.display = 'none';
-                    fileUploadContainer.classList.remove('uploading');
-                    progressBar.style.width = '0%';
-                    progressText.textContent = '0%';
-                }, 500);
-            }
-        }, 200);
+        this.init();
     }
 
-    // Function to show submission progress
-    function showSubmissionProgress() {
-        // Create or show submission modal
-        let submissionModal = document.getElementById('submissionModal');
-        if (!submissionModal) {
-            // Create submission modal if it doesn't exist
-            const modalHTML = `
-                <div class="modal fade" id="submissionModal" tabindex="-1" aria-labelledby="submissionModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header border-0">
-                                <h5 class="modal-title" id="submissionModalLabel">
-                                    <i class="bi bi-cloud-upload me-2"></i>Submitting Form
-                                </h5>
-                            </div>
-                            <div class="modal-body text-center">
-                                <div class="spinner-border text-primary mb-3" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <p class="mb-0">Please wait while we process your submission...</p>
-                                <div class="progress mt-3" style="height: 8px;">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
-                                         id="submissionProgressBar" role="progressbar" style="width: 0%"></div>
-                                </div>
-                                <small class="text-muted mt-2 d-block" id="submissionProgressText">Preparing submission...</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', modalHTML);
-            submissionModal = document.getElementById('submissionModal');
-        }
+    init() {
+        this.cacheElements();
+        this.bindEvents();
+        this.initializeTooltips();
+        this.setupFormValidation();
+    }
+
+    cacheElements() {
+        this.form = document.getElementById("py_quespaper");
+        this.fileInput = document.querySelector("#file");
+        this.fileUploadContainer = document.getElementById("fileUploadContainer");
+        this.fileUploadText = document.getElementById("fileUploadText");
+        this.fileList = document.getElementById("fileList");
+        this.submitButton = document.querySelector('button[type="submit"]');
+        this.resetButton = document.querySelector('button[type="reset"]');
         
-        const modal = new bootstrap.Modal(submissionModal);
-        modal.show();
-        
-        // Simulate submission progress
-        const submissionProgressBar = document.getElementById('submissionProgressBar');
-        const submissionProgressText = document.getElementById('submissionProgressText');
-        
-        let progress = 0;
-        const steps = [
-            'Validating form data...',
-            'Processing files...',
-            'Uploading to server...',
-            'Finalizing submission...',
-            'Complete!'
+        // Validation elements
+        this.validationFields = [
+            { id: "subject", errorId: "subjectError", message: "Please select a subject." },
+            { id: "semester", errorId: "semesterError", message: "Please select a semester." },
+            { id: "title", errorId: "titleError", message: "Please enter a title." },
+            { id: "file", errorId: "fileError", message: "Please upload at least one file." },
+            { id: "fileDescription", errorId: "fileDescriptionError", message: "Please enter a file description." }
         ];
-        let currentStep = 0;
+    }
+
+    bindEvents() {
+        // File input events
+        this.fileInput?.addEventListener("change", (e) => this.handleFileSelection(e.target.files));
         
-        const interval = setInterval(() => {
-            progress += Math.random() * 20 + 5;
-            if (progress > 100) progress = 100;
+        // Upload container events
+        this.fileUploadContainer?.addEventListener('click', (e) => this.handleContainerClick(e));
+        this.fileUploadContainer?.addEventListener('dragover', (e) => this.handleDragOver(e));
+        this.fileUploadContainer?.addEventListener('dragleave', (e) => this.handleDragLeave(e));
+        this.fileUploadContainer?.addEventListener('drop', (e) => this.handleDrop(e));
+        
+        // Form events
+        this.form?.addEventListener("submit", (e) => this.handleFormSubmit(e));
+        this.submitButton?.addEventListener("click", (e) => this.handleSubmitClick(e));
+        this.resetButton?.addEventListener("click", () => this.resetForm());
+        
+        // Field validation events
+        this.setupFieldValidation();
+    }
+
+    setupFieldValidation() {
+        document.querySelectorAll("input, textarea, select").forEach((field) => {
+            field.addEventListener("input", () => this.validateField(field));
+            field.addEventListener("blur", () => this.validateField(field));
+            field.addEventListener("focus", () => this.clearFieldError(field));
+        });
+    }
+
+    initializeTooltips() {
+        // Initialize AdminLTE tooltips
+        if (typeof $ !== 'undefined' && $.fn.tooltip) {
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+    }
+
+    setupFormValidation() {
+        // Setup real-time validation feedback
+        this.validationFields.forEach(field => {
+            const element = document.getElementById(field.id);
+            if (element) {
+                element.setAttribute('data-validation-message', field.message);
+            }
+        });
+    }
+
+    // File handling methods
+    handleFileSelection(files) {
+        if (!files || files.length === 0) return;
+        
+        this.showUploadProgress();
+        
+        const newFiles = Array.from(files);
+        const validFiles = this.filterValidFiles(newFiles);
+        
+        if (validFiles.length !== newFiles.length) {
+            this.showNotification('warning', 'Some files were skipped due to invalid format or size.');
+        }
+        
+        this.addFilesToSelection(validFiles);
+        this.hideUploadProgress();
+    }
+
+    filterValidFiles(files) {
+        return files.filter(file => {
+            const isValidSize = file.size <= this.maxFileSize;
+            const isValidFormat = this.isValidFileFormat(file.name);
             
-            submissionProgressBar.style.width = progress + '%';
-            
-            // Update step text
-            const stepProgress = Math.floor((progress / 100) * steps.length);
-            if (stepProgress > currentStep && stepProgress < steps.length) {
-                currentStep = stepProgress;
-                submissionProgressText.textContent = steps[currentStep];
+            if (!isValidSize) {
+                this.showNotification('error', `File "${file.name}" is too large. Maximum size is 100MB.`);
+                return false;
             }
             
-            if (progress >= 100) {
-                clearInterval(interval);
-                submissionProgressText.textContent = steps[steps.length - 1];
-                
-                setTimeout(() => {
-                    modal.hide();
-                    showSubmissionSuccess();
-                }, 1000);
-            }
-        }, 300);
-    }
-
-    // Function to show submission success
-    function showSubmissionSuccess() {
-        const formData = collectFormData();
-        
-        // Create success modal
-        let successModal = document.getElementById('successModal');
-        if (!successModal) {
-            const modalHTML = `
-                <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header bg-success border-0">
-                                <h5 class="modal-title" id="successModalLabel">
-                                    <i class="bi bi-check-circle-fill me-2"></i>Submission Successful!
-                                </h5>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="alert alert-success border-0 mb-4">
-                                    <h6 class="alert-heading mb-2">Your study material has been submitted successfully!</h6>
-                                    <p class="mb-0">Thank you for contributing to the knowledge base. Your submission will be reviewed and made available to other students.</p>
-                                </div>
-                                <div id="submissionSummary"></div>
-                            </div>
-                            <div class="modal-footer border-0">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="submitAnotherBtn">
-                                    <i class="bi bi-plus-circle me-1"></i>Submit Another
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', modalHTML);
-            successModal = document.getElementById('successModal');
-            
-            // Add event listener for "Submit Another" button
-            document.getElementById('submitAnotherBtn').addEventListener('click', () => {
-                const modal = bootstrap.Modal.getInstance(successModal);
-                modal.hide();
-                resetForm();
-            });
-        }
-        
-        // Update submission summary
-        const summaryElement = document.getElementById('submissionSummary');
-        summaryElement.innerHTML = `
-            <div class="card border-0">
-                <div class="card-header bg-transparent border-0 pb-0">
-                    <h6 class="mb-0">Submission Summary</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="d-flex justify-content-between">
-                                <span class="text-muted">Subject:</span>
-                                <span class="fw-semibold">${formData.subject}</span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex justify-content-between">
-                                <span class="text-muted">Semester:</span>
-                                <span class="fw-semibold">${formData.semester}</span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex justify-content-between">
-                                <span class="text-muted">Title:</span>
-                                <span class="fw-semibold">${formData.title}</span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <span class="text-muted">Files:</span>
-                                <div class="text-end">
-                                    ${formData.files.map(file => 
-                                        `<div class="fw-semibold">${file.name} <small class="text-muted">(${file.size})</small></div>`
-                                    ).join('')}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <span class="text-muted">Description:</span>
-                                <span class="fw-semibold text-end" style="max-width: 60%;">${formData.description}</span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex justify-content-between">
-                                <span class="text-muted">Submission ID:</span>
-                                <span class="fw-semibold font-monospace">${generateSubmissionId()}</span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex justify-content-between">
-                                <span class="text-muted">Submitted:</span>
-                                <span class="fw-semibold">${new Date().toLocaleString()}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        const modal = new bootstrap.Modal(successModal);
-        modal.show();
-    }
-
-    // Function to collect form data
-    function collectFormData() {
-        return {
-            subject: document.getElementById('subject')?.value || '',
-            semester: document.getElementById('semester')?.value || '',
-            title: document.getElementById('title')?.value || '',
-            description: document.getElementById('fileDescription')?.value || '',
-            files: selectedFiles.map(file => ({
-                name: file.name,
-                size: (file.size / 1024 / 1024).toFixed(2) + ' MB',
-                type: file.type
-            }))
-        };
-    }
-
-    // Function to generate submission ID
-    function generateSubmissionId() {
-        const timestamp = Date.now().toString(36);
-        const random = Math.random().toString(36).substr(2, 5);
-        return `PYQ-${timestamp}-${random}`.toUpperCase();
-    }
-
-    // Function to handle actual form submission
-    function submitForm() {
-        if (isSubmitting) return;
-        
-        isSubmitting = true;
-        submitButton.disabled = true;
-        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Submitting...';
-        
-        // Show submission progress
-        showSubmissionProgress();
-        
-        // Create FormData object for submission
-        const formData = new FormData(form);
-        
-        // Replace the file input files with our selected files
-        formData.delete('file'); // Remove existing file data
-        selectedFiles.forEach((file, index) => {
-            formData.append('files[]', file);
-        });
-        
-        // Add additional metadata
-        formData.append('submission_id', generateSubmissionId());
-        formData.append('submission_timestamp', new Date().toISOString());
-        formData.append('file_count', selectedFiles.length.toString());
-        
-        // Simulate actual form submission (replace with actual submission logic)
-        setTimeout(() => {
-            // In a real application, you would submit the formData to your server
-            // Example:
-            /*
-            fetch('/submit-study-material', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                // Handle success response
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Handle error
-                showSubmissionError(error);
-            })
-            .finally(() => {
-                isSubmitting = false;
-                submitButton.disabled = false;
-                submitButton.innerHTML = '<i class="bi bi-send me-1"></i>Submit Material';
-            });
-            */
-            
-            // For demo purposes, we'll just log the form data
-            console.log('Form Data to be submitted:');
-            for (let [key, value] of formData.entries()) {
-                console.log(key, value);
+            if (!isValidFormat) {
+                this.showNotification('error', `File "${file.name}" has an unsupported format.`);
+                return false;
             }
             
-            // Reset submission state
-            isSubmitting = false;
-            submitButton.disabled = false;
-            submitButton.innerHTML = 'SUBMIT';
-            
-        }, 3000); // Simulate network delay
-    }
-
-    // Function to show submission error
-    function showSubmissionError(error) {
-        let errorModal = document.getElementById('errorModal');
-        if (!errorModal) {
-            const modalHTML = `
-                <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header bg-danger border-0">
-                                <h5 class="modal-title" id="errorModalLabel">
-                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>Submission Failed
-                                </h5>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="alert alert-danger border-0 mb-3">
-                                    <h6 class="alert-heading mb-2">Oops! Something went wrong.</h6>
-                                    <p class="mb-0">We encountered an error while processing your submission. Please try again.</p>
-                                </div>
-                                <div class="card border-0">
-                                    <div class="card-body">
-                                        <h6 class="card-title">Error Details:</h6>
-                                        <p class="card-text text-muted font-monospace" id="errorDetails"></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer border-0">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-danger" id="retrySubmissionBtn">
-                                    <i class="bi bi-arrow-clockwise me-1"></i>Try Again
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', modalHTML);
-            errorModal = document.getElementById('errorModal');
-            
-            // Add retry functionality
-            document.getElementById('retrySubmissionBtn').addEventListener('click', () => {
-                const modal = bootstrap.Modal.getInstance(errorModal);
-                modal.hide();
-                submitForm();
-            });
-        }
-        
-        document.getElementById('errorDetails').textContent = error.message || 'Unknown error occurred';
-        const modal = new bootstrap.Modal(errorModal);
-        modal.show();
-    }
-
-    // Function to reset form
-    function resetForm() {
-        selectedFiles = [];
-        fileInput.value = "";
-        displayFiles([]);
-        fileUploadContainer.classList.remove("error", "has-files", "uploading");
-        uploadProgress.style.display = 'none';
-        progressBar.style.width = '0%';
-        progressText.textContent = '0%';
-        if (fileError) fileError.textContent = "";
-
-        // Reset all form fields
-        form.reset();
-
-        // Remove validation classes
-        document.querySelectorAll(".is-invalid, .valid").forEach((field) => {
-            field.classList.remove("is-invalid", "valid");
-        });
-
-        document.querySelectorAll(".error-message").forEach((error) => {
-            error.textContent = "";
-            error.style.display = "none";
-        });
-
-        // Reset submit button
-        submitButton.disabled = false;
-        submitButton.innerHTML = '<i class="bi bi-send me-1"></i>Submit Material';
-        isSubmitting = false;
-    }
-
-    // Function to update file input with selected files
-    function updateFileInput() {
-        const dt = new DataTransfer();
-        selectedFiles.forEach(file => dt.items.add(file));
-        fileInput.files = dt.files;
-    }
-
-    // Function to preview file with confirmation
-    function previewFile(file, index) {
-        const modal = new bootstrap.Modal(document.getElementById('filePreviewModal'));
-        const modalTitle = document.getElementById('filePreviewModalLabel');
-        const modalContent = document.getElementById('filePreviewContent');
-        const removeBtn = document.getElementById('removeFileBtn');
-        
-        modalTitle.innerHTML = `<i class="bi bi-file-earmark-check me-2"></i>File Confirmation & Preview`;
-        
-        // Comprehensive file information with validation status
-        const fileTypeIcon = getFileTypeIcon(file.type, file.name);
-        const fileSizeStatus = file.size <= 100 * 1024 * 1024 ? 
-            '<span class="badge bg-success">Size OK</span>' : 
-            '<span class="badge bg-danger">Size Too Large</span>';
-        
-        const fileFormatStatus = isValidFileFormat(file.name) ? 
-            '<span class="badge bg-success">Format Supported</span>' : 
-            '<span class="badge bg-warning">Format Not Supported</span>';
-
-        const confirmationHeader = `
-            <div class="alert alert-primary border-0 mb-4">
-                <div class="d-flex align-items-center">
-                    <i class="bi bi-info-circle-fill fs-4 me-3"></i>
-                    <div>
-                        <h6 class="alert-heading mb-1">File Confirmation Required</h6>
-                        <p class="mb-0">Please review the file details below and confirm if you want to keep this file for upload.</p>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Detailed file information card
-        const fileInfo = `
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header py-3">
-                    <div class="d-flex align-items-center">
-                        <i class="${fileTypeIcon} fs-2 me-3 text-primary"></i>
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1 fw-bold">${file.name}</h6>
-                            <div class="d-flex gap-2 flex-wrap">
-                                ${fileSizeStatus}
-                                ${fileFormatStatus}
-                                <span class="badge bg-info">File ${index + 1} of ${selectedFiles.length}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="d-flex justify-content-between">
-                                <span class="text-muted">File Size:</span>
-                                <span class="fw-semibold">${(file.size / 1024 / 1024).toFixed(2)} MB</span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex justify-content-between">
-                                <span class="text-muted">File Type:</span>
-                                <span class="fw-semibold">${getFileExtension(file.name).toUpperCase()}</span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex justify-content-between">
-                                <span class="text-muted">MIME Type:</span>
-                                <span class="fw-semibold">${file.type || 'Unknown'}</span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex justify-content-between">
-                                <span class="text-muted">Last Modified:</span>
-                                <span class="fw-semibold">${new Date(file.lastModified).toLocaleDateString()}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // File content preview section
-        let previewSection = '';
-        
-        if (file.type === 'application/pdf') {
-            const fileURL = URL.createObjectURL(file);
-            previewSection = `
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header">
-                        <h6 class="mb-0"><i class="bi bi-file-pdf me-2"></i>PDF Preview</h6>
-                    </div>
-                    <div class="card-body p-0">
-                        <iframe src="${fileURL}" class="pdf-preview" frameborder="0" style="width: 100%; height: 500px;">
-                            <div class="p-4 text-center">
-                                <p>Your browser does not support PDF preview.</p>
-                                <a href="${fileURL}" target="_blank" class="btn btn-outline-primary">
-                                    <i class="bi bi-box-arrow-up-right me-1"></i>Open in New Tab
-                                </a>
-                            </div>
-                        </iframe>
-                    </div>
-                </div>
-            `;
-        } else if (file.type.includes('image/')) {
-            const fileURL = URL.createObjectURL(file);
-            previewSection = `
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header">
-                        <h6 class="mb-0"><i class="bi bi-image me-2"></i>Image Preview</h6>
-                    </div>
-                    <div class="card-body text-center">
-                        <img src="${fileURL}" class="img-fluid rounded" alt="File preview" style="max-height: 400px;">
-                    </div>
-                </div>
-            `;
-        } else if (file.type.includes('text/')) {
-            previewSection = `
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light">
-                        <h6 class="mb-0"><i class="bi bi-file-text me-2"></i>Text Preview</h6>
-                    </div>
-                    <div class="card-body">
-                        <div id="textPreview" class="bg-light p-3 rounded" style="max-height: 300px; overflow-y: auto; font-family: monospace;">
-                            <div class="text-center text-muted">
-                                <div class="spinner-border spinner-border-sm me-2" role="status"></div>
-                                Loading preview...
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        } else {
-            const fileTypeDescription = getFileTypeDescription(file.name);
-            previewSection = `
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light">
-                        <h6 class="mb-0"><i class="bi bi-file-earmark me-2"></i>File Information</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="alert alert-info border-0 mb-0">
-                            <div class="d-flex align-items-center">
-                                <i class="bi bi-info-circle fs-4 me-3"></i>
-                                <div>
-                                    <h6 class="alert-heading mb-1">${fileTypeDescription}</h6>
-                                    <p class="mb-0">Preview is not available for this file type, but it will be uploaded successfully if the format is supported.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        modalContent.innerHTML = confirmationHeader + fileInfo + previewSection;
-        
-        // Load text file content if it's a text file
-        if (file.type.includes('text/')) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const textPreviewEl = document.getElementById('textPreview');
-                if (textPreviewEl) {
-                    textPreviewEl.innerHTML = `<pre style="white-space: pre-wrap; margin: 0;">${e.target.result}</pre>`;
-                }
-            };
-            reader.readAsText(file);
-        }
-        
-        // Set up remove button functionality
-        removeBtn.onclick = function() {
-            removeFileFromList(index);
-            modal.hide();
-        };
-        
-        modal.show();
-    }
-
-    // Helper functions for file type detection and formatting
-    function getFileTypeIcon(mimeType, fileName) {
-        const extension = getFileExtension(fileName);
-        
-        if (mimeType === 'application/pdf' || extension === 'pdf') {
-            return 'bi bi-file-pdf-fill text-danger';
-        } else if (mimeType.includes('image/')) {
-            return 'bi bi-file-image-fill text-success';
-        } else if (extension === 'docx' || extension === 'doc') {
-            return 'bi bi-file-word-fill text-primary';
-        } else if (extension === 'pptx' || extension === 'ppt') {
-            return 'bi bi-file-ppt-fill text-warning';
-        } else if (mimeType.includes('text/')) {
-            return 'bi bi-file-text-fill text-info';
-        } else {
-            return 'bi bi-file-earmark-fill text-secondary';
-        }
-    }
-
-    function getFileExtension(fileName) {
-        return fileName.split('.').pop().toLowerCase();
-    }
-
-    function getFileTypeDescription(fileName) {
-        const extension = getFileExtension(fileName);
-        
-        switch(extension) {
-            case 'pdf': return 'PDF Document';
-            case 'docx': case 'doc': return 'Microsoft Word Document';
-            case 'pptx': case 'ppt': return 'Microsoft PowerPoint Presentation';
-            case 'txt': return 'Text Document';
-            case 'jpg': case 'jpeg': case 'png': case 'gif': return 'Image File';
-            default: return 'Unknown File Type';
-        }
-    }
-
-    function isValidFileFormat(fileName) {
-        const validFormats = ['pdf', 'docx', 'doc', 'pptx', 'ppt'];
-        const extension = getFileExtension(fileName);
-        return validFormats.includes(extension);
-    }
-
-    // Function to remove file from list
-    function removeFileFromList(index) {
-        selectedFiles.splice(index, 1);
-        updateFileInput();
-        displayFiles(selectedFiles);
-        validateFileUpload();
-    }
-
-    // Function to display selected files
-    function displayFiles(files) {
-        if (files.length === 0) {
-            fileList.style.display = 'none';
-            fileUploadContainer.classList.remove('has-files');
-            fileUploadText.innerHTML = `
-                <strong>Click to browse files</strong><br>
-                or drag and drop your files here<br>
-                <small>PDF, Word (.docx), PowerPoint (.pptx) • Max 100MB each</small>
-            `;
-            return;
-        }
-
-        fileUploadContainer.classList.add('has-files');
-        fileUploadText.innerHTML = `<strong>${files.length} file(s) selected</strong>`;
-        
-        fileList.innerHTML = files.map((file, index) => `
-            <div class="file-item" data-file-index="${index}" title="Click to preview">
-                <i class="bi bi-file-earmark text-primary"></i>
-                <span class="flex-grow-1">${file.name}</span>
-                <small class="text-muted">${(file.size / 1024 / 1024).toFixed(2)} MB</small>
-                <i class="bi bi-eye text-secondary ms-2"></i>
-            </div>
-        `).join('');
-        
-        // Add click event listeners to file items
-        fileList.querySelectorAll('.file-item').forEach((item, index) => {
-            item.addEventListener('click', () => {
-                previewFile(files[index], index);
-            });
-        });
-        
-        fileList.style.display = 'block';
-    }
-
-    // Function to validate file input
-    function validateFileUpload() {
-        if (!fileInput) return false;
-
-        fileUploadContainer.classList.remove("error");
-        if (fileError) fileError.textContent = "";
-
-        if (selectedFiles.length === 0) {
-            fileUploadContainer.classList.add("error");
-            if (fileError) fileError.textContent = "Please select at least one file.";
-            displayFiles([]);
-            return false;
-        }
-
-        if (selectedFiles.length > 5) {
-            alert("You can upload 5 files only.");
-            // Keep only first 5 files
-            selectedFiles = selectedFiles.slice(0, 5);
-            updateFileInput();
-            displayFiles(selectedFiles);
             return true;
-        }
-
-        displayFiles(selectedFiles);
-        return true;
-    }
-
-    // Function to validate form fields
-    function validateForm() {
-        let isValid = true;
-
-        fields.forEach((field) => {
-            const input = document.getElementById(field.id);
-            const error = document.getElementById(field.errorId);
-
-            if (!input || !error) return;
-
-            if (!input.value.trim()) {
-                input.classList.add("is-invalid");
-                input.classList.remove("valid");
-                error.textContent = field.message;
-                error.style.display = "block";
-                isValid = false;
-            } else {
-                input.classList.remove("is-invalid");
-                input.classList.add("valid");
-                error.style.display = "none";
-            }
         });
-
-        if (!validateFileUpload()) {
-            isValid = false;
-        }
-
-        return isValid;
     }
 
-    // Function to handle new file selection
-    function handleFileSelection(newFiles) {
-        // Convert FileList to Array
-        const newFilesArray = Array.from(newFiles);
+    addFilesToSelection(newFiles) {
+        const availableSlots = this.maxFiles - this.selectedFiles.length;
         
-        // Check if total files would exceed limit
-        if (selectedFiles.length + newFilesArray.length > 5) {
-            const remainingSlots = 5 - selectedFiles.length;
-            if (remainingSlots > 0) {
-                alert(`You can only add ${remainingSlots} more file(s). Only the first ${remainingSlots} file(s) will be added.`);
-                selectedFiles.push(...newFilesArray.slice(0, remainingSlots));
+        if (newFiles.length > availableSlots) {
+            if (availableSlots > 0) {
+                this.showNotification('warning', `Only ${availableSlots} more files can be added.`);
+                this.selectedFiles.push(...newFiles.slice(0, availableSlots));
             } else {
-                alert("You have already selected 5 files. Please remove some files first.");
+                this.showNotification('error', 'Maximum file limit reached. Please remove some files first.');
                 return;
             }
         } else {
-            // Add new files to existing ones
-            selectedFiles.push(...newFilesArray);
+            this.selectedFiles.push(...newFiles);
         }
         
-        updateFileInput();
-        displayFiles(selectedFiles);
-        validateFileUpload();
+        this.updateFileDisplay();
+        this.updateFileInput();
+        this.validateFileUpload();
     }
 
-    // File input change event
-    fileInput?.addEventListener("change", (e) => {
-        if (e.target.files.length > 0) {
-            simulateUpload();
-            handleFileSelection(e.target.files);
+    removeFile(index) {
+        if (index >= 0 && index < this.selectedFiles.length) {
+            const fileName = this.selectedFiles[index].name;
+            this.selectedFiles.splice(index, 1);
+            this.updateFileDisplay();
+            this.updateFileInput();
+            this.validateFileUpload();
+            this.showNotification('info', `File "${fileName}" removed.`);
         }
-    });
+    }
 
-    // Make entire upload container clickable (but not when clicking on file items or browse button)
-    fileUploadContainer?.addEventListener('click', (e) => {
-        // Don't trigger file input if clicking on file items, browse button, or any interactive elements
-        if (!e.target.closest('.file-item') && 
-            !e.target.closest('.file-upload-button') && 
-            !e.target.closest('label') &&
-            e.target !== fileInput) {
-            fileInput.click();
+    updateFileDisplay() {
+        if (this.selectedFiles.length === 0) {
+            this.showEmptyState();
+            return;
         }
-    });
-
-    // The browse button is already handled by the label element wrapping the file input
-    // No need for additional click handler as the label naturally triggers the input
-
-    // Drag and drop functionality
-    fileUploadContainer?.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        fileUploadContainer.style.borderColor = '#002855';
-        fileUploadContainer.style.background = '#f8f9ff';
-    });
-
-    fileUploadContainer?.addEventListener('dragleave', (e) => {
-        e.preventDefault();
-    });
-
-    fileUploadContainer?.addEventListener('drop', (e) => {
-        e.preventDefault();
         
-        const files = Array.from(e.dataTransfer.files);
-        if (files.length > 0) {
-            simulateUpload();
-            handleFileSelection(files);
+        this.showFilesState();
+        this.renderFileList();
+    }
+
+    showEmptyState() {
+        this.fileUploadContainer?.classList.remove('has-files');
+        this.fileList.style.display = 'none';
+        
+        if (this.fileUploadText) {
+            this.fileUploadText.innerHTML = `
+                <div class="text-center">
+                    <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
+                    <div><strong>Click to browse files</strong></div>
+                    <div class="text-muted">or drag and drop your files here</div>
+                    <small class="text-muted">PDF, Word, PowerPoint, Text • Max 100MB each • Up to 5 files</small>
+                </div>
+            `;
         }
-    });
+    }
 
-    // Form submit event - Updated with proper submission logic
-    submitButton?.addEventListener("click", (event) => {
-        event.preventDefault();
-        if (validateForm()) {
-            submitForm();
+    showFilesState() {
+        this.fileUploadContainer?.classList.add('has-files');
+        
+        if (this.fileUploadText) {
+            this.fileUploadText.innerHTML = `
+                <div class="text-center">
+                    <i class="fas fa-check-circle text-success fa-2x mb-2"></i>
+                    <div><strong>${this.selectedFiles.length} file(s) selected</strong></div>
+                    <small class="text-muted">Click on files below to preview or remove</small>
+                </div>
+            `;
         }
-    });
+    }
 
-    // Form submit event handler
-    form?.addEventListener("submit", (event) => {
-        event.preventDefault();
-        if (validateForm()) {
-            submitForm();
+    renderFileList() {
+        if (!this.fileList) return;
+        
+        this.fileList.innerHTML = this.selectedFiles.map((file, index) => `
+            <div class="file-item card card-outline card-primary mb-2" data-file-index="${index}">
+                <div class="card-body p-3">
+                    <div class="d-flex align-items-center">
+                        <i class="${this.getFileIcon(file)} fa-lg text-primary me-3"></i>
+                        <div class="flex-grow-1">
+                            <div class="fw-bold">${this.truncateFileName(file.name, 30)}</div>
+                            <small class="text-muted">${this.formatFileSize(file.size)} • ${this.getFileExtension(file.name).toUpperCase()}</small>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-info" onclick="studyFormHandler.previewFile(${index})" title="Preview">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="studyFormHandler.removeFile(${index})" title="Remove">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        
+        this.fileList.style.display = 'block';
+    }
+
+    // File preview functionality
+    previewFile(index) {
+        if (index < 0 || index >= this.selectedFiles.length) return;
+        
+        const file = this.selectedFiles[index];
+        const modalId = 'filePreviewModal';
+        
+        this.createPreviewModal(modalId);
+        this.populatePreviewModal(file, index);
+        this.showModal(modalId);
+    }
+
+    createPreviewModal(modalId) {
+        if (document.getElementById(modalId)) return;
+        
+        const modalHTML = `
+            <div class="modal fade" id="${modalId}" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h5 class="modal-title text-white">
+                                <i class="fas fa-file-alt me-2"></i>File Preview
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body" id="previewModalBody">
+                            <!-- Content will be populated dynamically -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" id="removeFileFromPreview">
+                                <i class="fas fa-trash me-1"></i>Remove File
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    }
+
+    populatePreviewModal(file, index) {
+        const modalBody = document.getElementById('previewModalBody');
+        const removeBtn = document.getElementById('removeFileFromPreview');
+        
+        if (!modalBody) return;
+        
+        const fileInfo = this.generateFileInfoHTML(file, index);
+        const previewContent = this.generatePreviewContent(file);
+        
+        modalBody.innerHTML = fileInfo + previewContent;
+        
+        removeBtn.onclick = () => {
+            this.removeFile(index);
+            this.hideModal('filePreviewModal');
+        };
+    }
+
+    generateFileInfoHTML(file, index) {
+        return `
+            <div class="card card-outline card-info mb-3">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">
+                        <i class="${this.getFileIcon(file)} me-2"></i>File Information
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Name:</strong> ${file.name}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Size:</strong> ${this.formatFileSize(file.size)}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Type:</strong> ${this.getFileExtension(file.name).toUpperCase()}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Position:</strong> ${index + 1} of ${this.selectedFiles.length}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    generatePreviewContent(file) {
+        const fileType = file.type;
+        const extension = this.getFileExtension(file.name);
+        
+        if (fileType === 'application/pdf' || extension === 'pdf') {
+            const fileURL = URL.createObjectURL(file);
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0">PDF Preview</h6>
+                    </div>
+                    <div class="card-body p-0">
+                        <iframe src="${fileURL}" style="width: 100%; height: 500px; border: none;"></iframe>
+                    </div>
+                </div>
+            `;
+        } else if (fileType.includes('image/')) {
+            const fileURL = URL.createObjectURL(file);
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0">Image Preview</h6>
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="${fileURL}" class="img-fluid" style="max-height: 400px;" alt="Preview">
+                    </div>
+                </div>
+            `;
+        } else if (fileType.includes('text/')) {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0">Text Preview</h6>
+                    </div>
+                    <div class="card-body">
+                        <div id="textPreviewContent" class="bg-light p-3" style="max-height: 300px; overflow-y: auto; font-family: monospace;">
+                            <div class="text-center">
+                                <div class="spinner-border spinner-border-sm" role="status"></div>
+                                <span class="ms-2">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            return `
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Preview not available for this file type. The file will be uploaded successfully.
+                </div>
+            `;
         }
-    });
+    }
 
-    // Add focus and blur event listeners for validation feedback
-    document.querySelectorAll("input, textarea, select").forEach((field) => {
-        const error = document.getElementById(`${field.id}Error`);
+    // Form submission methods
+    handleFormSubmit(e) {
+        e.preventDefault();
+        if (this.validateForm()) {
+            this.submitForm();
+        }
+    }
 
-        field.addEventListener("focus", () => {
-            field.classList.remove("is-invalid");
-            field.classList.add("valid");
-            if (error) error.style.display = "none";
+    handleSubmitClick(e) {
+        e.preventDefault();
+        if (this.validateForm()) {
+            this.submitForm();
+        }
+    }
+
+    async submitForm() {
+        if (this.isSubmitting) return;
+        
+        this.setSubmittingState(true);
+        
+        try {
+            await this.performSubmission();
+            this.showSubmissionSuccess();
+        } catch (error) {
+            this.showSubmissionError(error);
+        } finally {
+            this.setSubmittingState(false);
+        }
+    }
+
+    setSubmittingState(isSubmitting) {
+        this.isSubmitting = isSubmitting;
+        
+        if (this.submitButton) {
+            this.submitButton.disabled = isSubmitting;
+            this.submitButton.innerHTML = isSubmitting 
+                ? '<i class="fas fa-spinner fa-spin me-1"></i>Submitting...'
+                : '<i class="fas fa-paper-plane me-1"></i>Submit Material';
+        }
+    }
+
+    async performSubmission() {
+        const formData = this.collectFormData();
+        
+        // Show submission progress
+        this.showSubmissionProgress();
+        
+        // Simulate submission (replace with actual API call)
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                // Simulate success/failure
+                const success = Math.random() > 0.1; // 90% success rate for demo
+                
+                if (success) {
+                    resolve({ success: true, submissionId: this.generateSubmissionId() });
+                } else {
+                    reject(new Error('Network error occurred. Please try again.'));
+                }
+            }, 3000);
         });
+    }
 
-        field.addEventListener("blur", () => {
-            if (!field.value.trim()) {
-                field.classList.add("is-invalid");
-                field.classList.remove("valid");
-                if (error) error.style.display = "block";
-            } else {
-                field.classList.remove("is-invalid");
-                field.classList.add("valid");
-                if (error) error.style.display = "none";
+    collectFormData() {
+        const formData = new FormData(this.form);
+        
+        // Replace file input with selected files
+        formData.delete('file');
+        this.selectedFiles.forEach((file, index) => {
+            formData.append('files[]', file);
+        });
+        
+        // Add metadata
+        formData.append('submission_id', this.generateSubmissionId());
+        formData.append('submission_timestamp', new Date().toISOString());
+        formData.append('file_count', this.selectedFiles.length.toString());
+        
+        return formData;
+    }
+
+    // Validation methods
+    validateForm() {
+        let isValid = true;
+        
+        this.validationFields.forEach(field => {
+            if (!this.validateField(document.getElementById(field.id))) {
+                isValid = false;
             }
         });
-    });
+        
+        if (!this.validateFileUpload()) {
+            isValid = false;
+        }
+        
+        return isValid;
+    }
 
-    // Reset button functionality
-    resetButton?.addEventListener("click", () => {
-        resetForm();
-    });
+    validateField(element) {
+        if (!element) return true;
+        
+        const value = element.value.trim();
+        const isValid = value !== '';
+        
+        this.setFieldValidationState(element, isValid);
+        
+        return isValid;
+    }
 
-    // Initialize tooltips
-    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
-        new bootstrap.Tooltip(el);
-    });
+    validateFileUpload() {
+        const isValid = this.selectedFiles.length > 0;
+        
+        const fileError = document.getElementById('fileError');
+        if (fileError) {
+            fileError.style.display = isValid ? 'none' : 'block';
+            fileError.textContent = isValid ? '' : 'Please upload at least one file.';
+        }
+        
+        if (this.fileUploadContainer) {
+            this.fileUploadContainer.classList.toggle('is-invalid', !isValid);
+        }
+        
+        return isValid;
+    }
+
+    setFieldValidationState(element, isValid) {
+        const errorElement = document.getElementById(`${element.id}Error`);
+        
+        element.classList.toggle('is-invalid', !isValid);
+        element.classList.toggle('is-valid', isValid);
+        
+        if (errorElement) {
+            errorElement.style.display = isValid ? 'none' : 'block';
+            if (!isValid) {
+                errorElement.textContent = element.getAttribute('data-validation-message') || 'This field is required.';
+            }
+        }
+    }
+
+    clearFieldError(element) {
+        element.classList.remove('is-invalid');
+        const errorElement = document.getElementById(`${element.id}Error`);
+        if (errorElement) {
+            errorElement.style.display = 'none';
+        }
+    }
+
+    // UI Helper methods
+    showNotification(type, message) {
+        // Use AdminLTE's Toast or SweetAlert if available
+        if (typeof Swal !== 'undefined') {
+            const icon = type === 'error' ? 'error' : type === 'warning' ? 'warning' : 'info';
+            Swal.fire({
+                icon: icon,
+                title: message,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        } else {
+            // Fallback to console or create custom notification
+            console.log(`${type.toUpperCase()}: ${message}`);
+        }
+    }
+
+    showUploadProgress() {
+        // Implementation for upload progress UI
+        const progressElement = document.getElementById('uploadProgress');
+        if (progressElement) {
+            progressElement.style.display = 'block';
+        }
+    }
+
+    hideUploadProgress() {
+        setTimeout(() => {
+            const progressElement = document.getElementById('uploadProgress');
+            if (progressElement) {
+                progressElement.style.display = 'none';
+            }
+        }, 500);
+    }
+
+    showSubmissionProgress() {
+        this.createSubmissionModal();
+        this.showModal('submissionProgressModal');
+    }
+
+    showSubmissionSuccess() {
+        this.hideModal('submissionProgressModal');
+        this.createSuccessModal();
+        this.showModal('submissionSuccessModal');
+    }
+
+    showSubmissionError(error) {
+        this.hideModal('submissionProgressModal');
+        this.showNotification('error', error.message || 'An error occurred during submission.');
+    }
+
+    createSubmissionModal() {
+        const modalId = 'submissionProgressModal';
+        if (document.getElementById(modalId)) return;
+        
+        const modalHTML = `
+            <div class="modal fade" id="${modalId}" tabindex="-1" data-bs-backdrop="static">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary border-0">
+                            <h5 class="modal-title text-white">
+                                <i class="fas fa-cloud-upload-alt me-2"></i>Submitting Form
+                            </h5>
+                        </div>
+                        <div class="modal-body text-center">
+                            <div class="spinner-border text-primary mb-3" role="status"></div>
+                            <p>Please wait while we process your submission...</p>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    }
+
+    createSuccessModal() {
+        const modalId = 'submissionSuccessModal';
+        if (document.getElementById(modalId)) return;
+        
+        const modalHTML = `
+            <div class="modal fade" id="${modalId}" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success border-0">
+                            <h5 class="modal-title text-white">
+                                <i class="fas fa-check-circle me-2"></i>Submission Successful!
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="alert alert-success border-0">
+                                <h6>Thank you for your contribution!</h6>
+                                <p class="mb-0">Your study material has been submitted successfully and will be reviewed shortly.</p>
+                            </div>
+                            <div id="submissionSummary"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="studyFormHandler.resetForm(); bootstrap.Modal.getInstance(document.getElementById('${modalId}')).hide();">
+                                <i class="fas fa-plus me-1"></i>Submit Another
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    }
+
+    // Event handlers
+    handleContainerClick(e) {
+        if (!e.target.closest('.file-item') && 
+            !e.target.closest('button') && 
+            e.target !== this.fileInput) {
+            this.fileInput?.click();
+        }
+    }
+
+    handleDragOver(e) {
+        e.preventDefault();
+        this.fileUploadContainer?.classList.add('drag-over');
+    }
+
+    handleDragLeave(e) {
+        e.preventDefault();
+        this.fileUploadContainer?.classList.remove('drag-over');
+    }
+
+    handleDrop(e) {
+        e.preventDefault();
+        this.fileUploadContainer?.classList.remove('drag-over');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            this.handleFileSelection(files);
+        }
+    }
+
+    // Utility methods
+    updateFileInput() {
+        if (!this.fileInput) return;
+        
+        const dt = new DataTransfer();
+        this.selectedFiles.forEach(file => dt.items.add(file));
+        this.fileInput.files = dt.files;
+    }
+
+    resetForm() {
+        this.selectedFiles = [];
+        this.isSubmitting = false;
+        
+        this.form?.reset();
+        this.updateFileDisplay();
+        this.clearAllValidationStates();
+        
+        if (this.submitButton) {
+            this.submitButton.disabled = false;
+            this.submitButton.innerHTML = '<i class="fas fa-paper-plane me-1"></i>Submit Material';
+        }
+        
+        this.showNotification('info', 'Form has been reset.');
+    }
+
+    clearAllValidationStates() {
+        document.querySelectorAll('.is-invalid, .is-valid').forEach(el => {
+            el.classList.remove('is-invalid', 'is-valid');
+        });
+        
+        document.querySelectorAll('.error-message').forEach(el => {
+            el.style.display = 'none';
+        });
+    }
+
+    // File utility methods
+    isValidFileFormat(fileName) {
+        const extension = this.getFileExtension(fileName);
+        return this.allowedFormats.includes(extension);
+    }
+
+    getFileExtension(fileName) {
+        return fileName.split('.').pop().toLowerCase();
+    }
+
+    getFileIcon(file) {
+        const extension = this.getFileExtension(file.name);
+        
+        switch(extension) {
+            case 'pdf': return 'fas fa-file-pdf text-danger';
+            case 'doc':
+            case 'docx': return 'fas fa-file-word text-primary';
+            case 'ppt':
+            case 'pptx': return 'fas fa-file-powerpoint text-warning';
+            case 'txt': return 'fas fa-file-alt text-info';
+            default: return 'fas fa-file text-secondary';
+        }
+    }
+
+    formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    truncateFileName(fileName, maxLength) {
+        if (fileName.length <= maxLength) return fileName;
+        
+        const extension = fileName.split('.').pop();
+        const nameWithoutExt = fileName.substring(0, fileName.lastIndexOf('.'));
+        const truncatedName = nameWithoutExt.substring(0, maxLength - extension.length - 4) + '...';
+        
+        return truncatedName + '.' + extension;
+    }
+
+    generateSubmissionId() {
+        const timestamp = Date.now().toString(36);
+        const random = Math.random().toString(36).substr(2, 5);
+        return `SM-${timestamp}-${random}`.toUpperCase();
+    }
+
+    // Modal utilities
+    showModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal && typeof bootstrap !== 'undefined') {
+            new bootstrap.Modal(modal).show();
+        }
+    }
+
+    hideModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal && typeof bootstrap !== 'undefined') {
+            const modalInstance = bootstrap.Modal.getInstance(modal);
+            if (modalInstance) {
+                modalInstance.hide();
+            }
+        }
+    }
+}
+
+// Initialize the form handler when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Create global instance for easy access
+    window.studyFormHandler = new StudyMaterialFormHandler();
 });
-</script>
+
+// Export for module systems
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = StudyMaterialFormHandler;
+}
+    </script>
     <!--end::Script-->
   </body><!--end::Body-->
 </html>
