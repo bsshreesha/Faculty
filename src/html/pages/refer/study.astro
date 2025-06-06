@@ -1335,6 +1335,31 @@ const page = "study";
         });
     }
 
+    // Dynamic subject-semester validation
+    const subjectSelect = document.getElementById('subject');
+    const semesterSelect = document.getElementById('semester');
+    
+    if (subjectSelect && semesterSelect) {
+        // Subjects will be fetched from server
+        // No predefined subject-semester mapping needed
+        
+        subjectSelect.addEventListener('change', function() {
+            const selectedSubject = this.value;
+            
+            // You can add custom logic here if needed
+            // For now, all semesters remain available
+            if (selectedSubject) {
+                // Enable all semester options when a subject is selected
+                Array.from(semesterSelect.options).forEach(option => {
+                    if (option.value !== '') {
+                        option.disabled = false;
+                        option.style.display = 'block';
+                    }
+                });
+            }
+        });
+    }
+
     // Auto-save functionality (using localStorage alternative for demo)
     let autoSaveData = {};
     
@@ -1425,8 +1450,8 @@ const page = "study";
     // Initialize form state
     console.log("Study Material Form initialized successfully");
     
-    // Initial validation state
-    validateFileUpload();
+    // Don't validate file upload initially to avoid showing error messages
+    // validateFileUpload();
     
     // Focus on first input field
     const firstInput = document.querySelector('select, input, textarea');
