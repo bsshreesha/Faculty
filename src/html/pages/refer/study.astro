@@ -1143,6 +1143,19 @@ const page = "study";
         return isValid;
     }
 
+    // Click anywhere in file upload container to open file dialog
+    if (fileUploadContainer) {
+        fileUploadContainer.addEventListener('click', function(e) {
+            // Only trigger file dialog if not clicking on existing file items or their buttons
+            if (!e.target.closest('.file-item') && !e.target.closest('.btn-close')) {
+                fileInput.click();
+            }
+        });
+        
+        // Make the container look clickable
+        fileUploadContainer.style.cursor = 'pointer';
+    }
+
     // File input change event
     if (fileInput) {
         fileInput.addEventListener("change", function (e) {
