@@ -791,36 +791,6 @@ const page = "study";
         modal.show();
     }
 
-    // Function to reset form
-    function resetForm() {
-        selectedFiles = [];
-        fileInput.value = "";
-        displayFiles([]);
-        fileUploadContainer.classList.remove("error", "has-files", "uploading");
-        uploadProgress.style.display = 'none';
-        progressBar.style.width = '0%';
-        progressText.textContent = '0%';
-        if (fileError) fileError.textContent = "";
-
-        // Reset all form fields
-        form.reset();
-
-        // Remove validation classes
-        document.querySelectorAll(".is-invalid, .is-valid").forEach((field) => {
-            field.classList.remove("is-invalid", "is-valid");
-        });
-
-        document.querySelectorAll(".error-message").forEach((error) => {
-            error.textContent = "";
-            error.style.display = "none";
-        });
-
-        // Reset submit button
-        submitButton.disabled = false;
-        submitButton.innerHTML = '<i class="bi bi-send me-1"></i>Submit Material';
-        isSubmitting = false;
-    }
-
     // Function to update file input with selected files
     function updateFileInput() {
         const dt = new DataTransfer();
