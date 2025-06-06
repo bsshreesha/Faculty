@@ -1278,23 +1278,6 @@ const page = "study";
         });
     }
 
-    // Reset button event
-    if (resetButton) {
-        resetButton.addEventListener("click", function (e) {
-            e.preventDefault();
-            
-            // Show confirmation dialog
-            if (selectedFiles.length > 0 || form.querySelector('input, textarea, select').value) {
-                const confirmReset = confirm("Are you sure you want to reset the form? All entered data and selected files will be lost.");
-                if (!confirmReset) {
-                    return;
-                }
-            }
-            
-            resetForm();
-        });
-    }
-
     // Character count for file description
     const fileDescriptionInput = document.getElementById('fileDescription');
     const charCountElement = document.getElementById('charCount');
@@ -1407,14 +1390,6 @@ const page = "study";
             e.preventDefault();
             if (form && !isSubmitting) {
                 form.dispatchEvent(new Event('submit'));
-            }
-        }
-        
-        // Ctrl+R or Cmd+R to reset form (with confirmation)
-        if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
-            e.preventDefault();
-            if (resetButton) {
-                resetButton.click();
             }
         }
         
