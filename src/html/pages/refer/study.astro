@@ -1335,49 +1335,6 @@ const page = "study";
         });
     }
 
-    // Dynamic subject-semester validation
-    const subjectSelect = document.getElementById('subject');
-    const semesterSelect = document.getElementById('semester');
-    
-    if (subjectSelect && semesterSelect) {
-        // Define valid semester ranges for each subject
-        const subjectSemesterMap = {
-            'computer-science': [1, 2, 3, 4, 5, 6, 7, 8],
-            'electronics': [1, 2, 3, 4, 5, 6, 7, 8],
-            'mechanical': [1, 2, 3, 4, 5, 6, 7, 8],
-            'civil': [1, 2, 3, 4, 5, 6, 7, 8],
-            'mathematics': [1, 2, 3, 4, 5, 6],
-            'physics': [1, 2, 3, 4, 5, 6],
-            'chemistry': [1, 2, 3, 4, 5, 6]
-        };
-        
-        subjectSelect.addEventListener('change', function() {
-            const selectedSubject = this.value;
-            const validSemesters = subjectSemesterMap[selectedSubject] || [];
-            
-            // Enable/disable semester options based on subject
-            Array.from(semesterSelect.options).forEach(option => {
-                if (option.value === '') return; // Skip default option
-                
-                const semesterNum = parseInt(option.value);
-                if (validSemesters.includes(semesterNum)) {
-                    option.disabled = false;
-                    option.style.display = 'block';
-                } else {
-                    option.disabled = true;
-                    option.style.display = 'none';
-                }
-            });
-            
-            // Reset semester selection if current selection is invalid
-            if (semesterSelect.value && !validSemesters.includes(parseInt(semesterSelect.value))) {
-                semesterSelect.value = '';
-                semesterSelect.classList.remove('is-valid');
-                semesterSelect.classList.add('is-invalid');
-            }
-        });
-    }
-
     // Auto-save functionality (using localStorage alternative for demo)
     let autoSaveData = {};
     
